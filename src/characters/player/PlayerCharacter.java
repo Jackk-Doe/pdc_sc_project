@@ -89,6 +89,35 @@ public abstract class PlayerCharacter extends Character{
         
     }
     
+    @Override
+    public String[] newedShowStatus() {
+        
+        String[] status = new String[10];
+        
+        status[0] = "  NAME    :     " + String.format("%-14s", this.name);
+        status[1] = "  JOB        :     " + String.format("%-14s", this.job);
+        status[2] = "  LVL        :     " + String.format("%-14d", this.level);
+        status[3] = "  HP         :     " + String.format("%2d", this.currentHp) + "/" + String.format("%-11d", this.fullHp);
+        status[4] = "  ATK       :     " + String.format("%-14d", this.baseAtk);
+        status[5] = "  ARMOR  :     " + String.format("%-14d", this.armor);
+        status[6] = "  LUCK     :     " + String.format("%-14d", this.luck);
+        status[7] = "  POTION :     " + String.format("%-14d", carryingItems.size());
+        if (passiveSkill1) {
+            status[8] = "  SKILL      :    " + String.format("%-14s", this.passiveSkill1Name);
+        }
+        else {
+            status[8] = "  SKILL      :    NONE";
+        }
+        if (passiveSkill2) {
+            status[9] = "  SKILL      :    " + String.format("%-14s", this.passiveSkill2Name);
+        }
+        else {
+            status[9] = "  SKILL      :    NONE";
+        }
+        
+        return status;
+    }
+    
     public boolean checkItemDrop()
     {
         boolean droppedItem = false;

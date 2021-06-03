@@ -131,6 +131,20 @@ public abstract class Character {
         System.out.println(status);
     }
     
+    public String[] newedShowStatus() {
+        
+        String[] status = new String[6];
+        
+        status[0] = "  NAME    :     " + String.format("%-16s", this.name);
+        status[1] = "  LVL        :     " + String.format("%-16d", this.level);
+        status[2] = "  HP         :     " + String.format("%2d", this.currentHp) + "/" + String.format("%-13d", this.fullHp);
+        status[3] = "  ATK       :     " + String.format("%-16d", this.baseAtk);
+        status[4] = "  ARMOR  :     " + String.format("%-16d", this.armor);
+        status[5] = "  LUCK     :     " + String.format("%-16d", this.luck);
+        
+        return status;
+    }
+    
     public boolean blockAttacking()
     {
         Random ran = new Random();
