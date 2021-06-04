@@ -5,7 +5,9 @@
  */
 package gui;
 
+import game.GameModel;
 import java.awt.Dimension;
+import map.Map;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JFrame;
@@ -20,7 +22,15 @@ public class InnerMainPanelMap extends JPanel{
     
     public JLabel[] labels;
 
-    public InnerMainPanelMap() {
+    private Map dungeonMap;
+    private GameModel gameModel;
+
+    public InnerMainPanelMap(GameModel model) {
+        
+        setLayout(null);
+        
+        this.gameModel = model;
+        this.dungeonMap = gameModel.getMap();
         
         setBorder(BorderFactory.createTitledBorder("Map: "));
         
@@ -28,25 +38,87 @@ public class InnerMainPanelMap extends JPanel{
         
         labels = new JLabel[25];
         
-        String stars = "";
-        
-        for (int i = 0; i < 40; i++) {
-            stars += "* ";
+        for (int y = 0; y < 25; y++) {
+            
+            String newStringMap = "";
+            
+            for (int x = 0; x < 40; x++) {
+                newStringMap += dungeonMap.newMap[y][x];
+            }
+            
+            labels[y] = new JLabel(newStringMap);
+            labels[y].setSize(420, 16);
+            labels[y].setLocation(1, y * 17);
+            add(labels[y]);
+            newStringMap = "";
         }
         
-        for (int i = 0; i < 25; i++) {
-            labels[i] = new JLabel(stars);
-            add(labels[i]);
+//        String stars = "";
+//        
+//        for (int i = 0; i < 40; i++) {
+//            stars += "* ";
+//        }
+//        
+//        for (int i = 0; i < 25; i++) {
+//            labels[i] = new JLabel(stars);
+//            add(labels[i]);
+//        }
+        
+//        setPreferredSize(new Dimension(420, 425));
+//        setSize(420, 425);
+        
+    }
+
+    public InnerMainPanelMap(Map inputMap) {
+        setLayout(null);
+        
+        this.dungeonMap = inputMap;
+        
+        setBorder(BorderFactory.createTitledBorder("Map: "));
+        
+        setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+        
+        labels = new JLabel[25];
+        
+        for (int y = 0; y < 25; y++) {
+            
+            String newStringMap = "";
+            
+            for (int x = 0; x < 40; x++) {
+                newStringMap += dungeonMap.newMap[y][x];
+            }
+            
+            System.out.println(newStringMap);
+            
+            labels[y] = new JLabel(newStringMap);
+            labels[y].setSize(420, 16);
+            labels[y].setLocation(1, y * 17);
+            add(labels[y]);
+            newStringMap = "";
         }
         
-//        setPreferredSize(new Dimension(410, 405));
-//        setSize(410, 405);
+    }
+    
+    public void updateMap() {
+        for (int y = 0; y < 25; y++) {
+            
+            String newStringMap = "";
+            
+            for (int x = 0; x < 40; x++) {
+                newStringMap += dungeonMap.newMap[y][x];
+            }
+            
+            labels[y].setText(newStringMap);
+            newStringMap = "";
+        }
         
+        this.revalidate();
+        this.repaint();
     }
     
     public static void main(String[] args) {
         JFrame frame = new JFrame("Test");
-        frame.getContentPane().add(new InnerMainPanelMap());
+        frame.getContentPane().add(new InnerMainPanelMap(new Map()));
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
         frame.setVisible(true);

@@ -7,8 +7,10 @@ package control;
 
 import characters.monsters.MonsterCharacter;
 import characters.player.PlayerCharacter;
-import characters.player.WarriorJob;
+import game.GameModel;
 import gui.GameView;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import javax.swing.JFrame;
 
@@ -18,15 +20,21 @@ import javax.swing.JFrame;
  */
 public class GameControl extends JFrame{
     
-    public static PlayerCharacter playerModel = new WarriorJob("AJAX");
+    public static PlayerCharacter playerModel;
     public static ArrayList<MonsterCharacter> monstersModel;
     
-    private GameView gameView;
+    public GameView gameView;
+    
+    public GameModel gameModel;
     
     public GameControl() {
         super("Nintendo GAMEBOY Simulator");
         
-        gameView = new GameView();
+        gameModel = new GameModel(gameView);
+        
+        gameView = new GameView(gameModel);
+        
+        gameView.buttonPanel.upButton.addActionListener(new TestButton());
         
         add(gameView);
         
@@ -34,8 +42,24 @@ public class GameControl extends JFrame{
         pack();
     }
     
+    private class TestButton implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent event) {
+            if (event.getSource() == gameView.buttonPanel.upButton) {
+                gameModel.player.showStatus();
+                System.out.println("Hello");
+            }
+            
+            
+        }
+        
+    }
+    
     public static void main(String[] args) {
         JFrame frame = new GameControl();
         frame.setVisible(true);
+        
+        
     }
 }

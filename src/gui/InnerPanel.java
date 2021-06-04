@@ -6,15 +6,10 @@
 package gui;
 
 import characters.player.PlayerCharacter;
-import characters.player.WarriorJob;
-import java.awt.BorderLayout;
+import game.GameModel;
 import java.awt.Color;
-import java.awt.Dimension;
 import java.util.Scanner;
-import javax.swing.BoxLayout;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JList;
 import javax.swing.JPanel;
 
 /**
@@ -23,60 +18,68 @@ import javax.swing.JPanel;
  */
 public class InnerPanel extends JPanel{
     
-    public JPanel innerMainPanel;
+    private GameModel gameModel;
+    
+//    public JPanel innerMainPanel;
+    
+    public InnerMainPanelMap innerPanelMap;
+    public InnerMainPanelBattle innerPanelBattle;
+    
     public ActionListPanel actionListPanel;
     public PlayerStatusPanel playerStatusPanel;
     
     public PlayerCharacter player;
     
-    public InnerPanel() {
+    public InnerPanel(GameModel model) {
+        
+        this.gameModel = model;
         
         setLayout(null);
         
-//        setLayout(null);
+        innerPanelMap = new InnerMainPanelMap(gameModel);
+        innerPanelMap.setSize(420, 425);
+        innerPanelMap.setLocation(10, 20);
         
-        innerMainPanel = new InnerMainPanelMap();
-        innerMainPanel.setSize(420, 425);
-        innerMainPanel.setLocation(10, 20);
-        innerMainPanel.setBackground(Color.red);
+        // Add Monster to Battle
+        innerPanelBattle = new InnerMainPanelBattle();
+        innerPanelBattle.setSize(420, 425);
+        
+//        innerMainPanel = new InnerMainPanelMap();
+//        innerMainPanel.setSize(420, 425);
+//        innerMainPanel.setLocation(10, 20);
+//        innerMainPanel.setBackground(Color.red);
         
         actionListPanel = new ActionListPanel();
         actionListPanel.setSize(230, 235);
         actionListPanel.setLocation(435, 20);
         actionListPanel.setBackground(Color.blue);
         
-        playerStatusPanel = new PlayerStatusPanel(new WarriorJob("Ajax", 300, 10));
+        playerStatusPanel = new PlayerStatusPanel(gameModel.getPlayer());
         playerStatusPanel.setSize(230, 185);
         playerStatusPanel.setLocation(435, 260);
         playerStatusPanel.setBackground(Color.gray);
         
-        add(innerMainPanel);
+        add(innerPanelMap);
         add(actionListPanel);
         add(playerStatusPanel);
         
-//        setPreferredSize(new Dimension(735, 610));
-//        setSize(660, 480);
-        setPreferredSize(new Dimension(680, 490));
+        setSize(680, 490);
     }
     
     public void changeState(int inputed) {
+        // Change to Battle 
         if (inputed == 1) {
-            InnerMainPanelMap newPanel = new InnerMainPanelMap();
-            this.remove(innerMainPanel);
-            innerMainPanel = newPanel;
-            this.add(innerMainPanel);
-            innerMainPanel.setSize(420, 425);
-            innerMainPanel.setLocation(10, 20);
+            this.remove(innerPanelMap);
+            this.add(innerPanelBattle);
+            innerPanelBattle.setLocation(10, 20);
             this.revalidate();
             this.repaint();
         }
+        // Change to Map
         else {
-            InnerMainPanelBattle newPanel = new InnerMainPanelBattle();
-            this.remove(innerMainPanel);
-            innerMainPanel = newPanel;
-            this.add(innerMainPanel);
-            innerMainPanel.setSize(420, 425);
-            innerMainPanel.setLocation(10, 20);
+            this.remove(innerPanelBattle);
+            this.add(innerPanelMap);
+            innerPanelMap.setLocation(10, 20);
             this.revalidate();
             this.repaint();
         }

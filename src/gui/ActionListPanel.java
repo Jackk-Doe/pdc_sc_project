@@ -5,8 +5,6 @@
  */
 package gui;
 
-import com.sun.org.apache.xalan.internal.xsltc.compiler.util.StringStack;
-import java.awt.Color;
 import java.awt.Dimension;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -36,15 +34,13 @@ public class ActionListPanel extends JPanel{
         JScrollPane scrollPane = new JScrollPane(actionList,
                 ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
                 ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-//        scrollPane.setSize(160, 295);
         scrollPane.setPreferredSize(new Dimension(210, 200));
         
         add(scrollPane);
         
-//        setPreferredSize(new Dimension(230, 375));
-//        setSize(230, 220);
     }
     
+    // Add new action string to the list, then update UI
     public void updateList(String newString) {
         
         arrayList.add(newString);

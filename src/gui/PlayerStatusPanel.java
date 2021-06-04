@@ -7,7 +7,6 @@ package gui;
 
 import characters.player.PlayerCharacter;
 import characters.player.WarriorJob;
-import java.awt.Dimension;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JFrame;

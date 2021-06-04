@@ -5,6 +5,7 @@
  */
 package gui;
 
+import game.GameModel;
 import java.awt.Color;
 import java.awt.Dimension;
 import javax.swing.JButton;
@@ -23,13 +24,17 @@ public class GameView extends JPanel{
     public OuterPanel outerPanel;
     public ButtonPanel buttonPanel;
     
-    public GameView() {
+    public GameModel gameModel;
+    
+    public GameView(GameModel inputGameModel) {
         
 //        setBackground(Color.CYAN);
-        
-        outerPanel = new OuterPanel();
+
+        this.gameModel = inputGameModel;
         
         buttonPanel = new ButtonPanel();
+        
+        outerPanel = new OuterPanel(gameModel);
         
         add(outerPanel);
         
@@ -40,6 +45,7 @@ public class GameView extends JPanel{
     
     public static void main(String[] args) {
         JFrame frame = new JFrame("Testing");
+        
         frame.getContentPane().add(new GameView());
         frame.pack();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
