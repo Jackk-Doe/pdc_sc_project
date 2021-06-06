@@ -15,107 +15,137 @@ import java.util.ArrayList;
  * @author sengthavongphilavong
  */
 public class Map {
-    char[][] map = new char[40][25];
-    public String[][] newMap = new String[25][40];
+    
+    public String[][] dunMap = new String[40][25];
     int x, y;
 
     public Map() {
         for (int y = 0; y < 25; y++) {
             for (int x = 0; x < 40; x++) {
-                newMap[y][x] = "* ";
+                dunMap[x][y] = "* ";
             }
         }
-    }
-    
-    public void createMap()
-    {
-//        for (x = 0; x < map[x][y]; x++) {
-//            for (y = 0; y < map[x][y]; y++) {
-//                map[x][y] = ' ';
-//            }
-//        }
         
-        for (x = 0; x < map[0].length; x++) {
-            map[0][x] = '|';
-            map[39][x] = '|';
-            map[x][0] = '_';
-            map[x][24] = '_';
-        }
-        map[39][24] = '|';
+        dunMap[x][y] = "P ";
     }
     
     public void printMap()
     {
-        for (y = 0; y < map[0].length; y++)
+        for (y = 0; y < 25; y++)
         {
-            for (x = 0; x < map[0].length; x++)
+            for (x = 0; x < 40; x++)
             {
-                System.out.print(map[x][y]);
+                System.out.print(dunMap[x][y]);
             }
             System.out.println();
         }
         System.out.println();
     }
     
+    // Wrong added
     public void addCharacters(PlayerCharacter p, ArrayList<MonsterCharacter> monsterCharacter)
     {
-        newMap[p.getX_position()][p.getY_position()] = "P ";
+        dunMap[p.getX_position()][p.getY_position()] = "P ";
         
         for (MonsterCharacter m : monsterCharacter) {
             if (m.getName().equalsIgnoreCase("Slime")) {
-                newMap[m.getX_position()][m.getY_position()] = "S ";
+                dunMap[m.getX_position()][m.getY_position()] = "S ";
             } 
             else if (m.getName().equalsIgnoreCase("Goblin")) {
-                newMap[m.getX_position()][m.getY_position()] = "G ";
+                dunMap[m.getX_position()][m.getY_position()] = "G ";
             } 
             else if (m.getName().equalsIgnoreCase("Skeleton Warrior")) {
-                newMap[m.getX_position()][m.getY_position()] = "W ";
+                dunMap[m.getX_position()][m.getY_position()] = "W ";
             }
             else if (m.getName().equalsIgnoreCase("Ancient Dragon")) {
-                newMap[m.getX_position()][m.getY_position()] = "W ";
+                dunMap[m.getX_position()][m.getY_position()] = "W ";
             }
         }
     }
     
+    // New
     public void addMonster(ArrayList<MonsterCharacter> monsterCharacters) {
-        for (MonsterCharacter monster : monsterCharacters) {
-            if (monster.getName().equalsIgnoreCase("Slime")) {
-                map[monster.getX_position()][monster.getY_position()] = 'S';
+        for (MonsterCharacter m : monsterCharacters) {
+            if (m.getName().equalsIgnoreCase("Slime")) {
+                dunMap[m.getX_position()][m.getY_position()] = "S ";
             } 
-            else if (monster.getName().equalsIgnoreCase("Goblin")) {
-                map[monster.getX_position()][monster.getY_position()] = 'G';
+            else if (m.getName().equalsIgnoreCase("Goblin")) {
+                dunMap[m.getX_position()][m.getY_position()] = "G ";
             } 
-            else if (monster.getName().equalsIgnoreCase("Skeleton Warrior")) {
-                map[monster.getX_position()][monster.getY_position()] = 'W';
+            else if (m.getName().equalsIgnoreCase("Skeleton Warrior")) {
+                dunMap[m.getX_position()][m.getY_position()] = "W ";
             }
-            else if (monster.getName().equalsIgnoreCase("Ancient Dragon")) {
-                map[monster.getX_position()][monster.getY_position()] = 'D';
+            else if (m.getName().equalsIgnoreCase("Ancient Dragon")) {
+                dunMap[m.getX_position()][m.getY_position()] = "W ";
             }
         }
     }
     
-    public void updateMap(PlayerCharacter p, char input)
+    // Old one
+//    public void updateMap(PlayerCharacter p, char input)
+//    {
+//        switch (input) {
+//            case 'w':
+//                map[p.getX_position()][p.getY_position() + 1] = ' ';
+//                break;
+//            case 's':
+//                map[p.getX_position()][p.getY_position() - 1] = ' ';
+//                break;
+//            case 'd':
+//                map[p.getX_position() - 1][p.getY_position()] = ' ';
+//                break;
+//            case 'a':
+//                map[p.getX_position() + 1][p.getY_position()] = ' ';
+//                break;
+//        }
+//        map[p.getX_position()][p.getY_position()] = 'P';
+//    }
+    
+    // New one
+    public void updateMap(PlayerCharacter player, char input)
     {
+        dunMap[player.getX_position()][player.getY_position()] = "* ";
+        
         switch (input) {
             case 'w':
-                map[p.getX_position()][p.getY_position() + 1] = ' ';
+                player.setY_position(player.getY_position() - 1);
                 break;
+                
             case 's':
-                map[p.getX_position()][p.getY_position() - 1] = ' ';
+                player.setY_position(player.getY_position() + 1);
                 break;
+                
             case 'd':
-                map[p.getX_position() - 1][p.getY_position()] = ' ';
+                player.setX_position(player.getX_position() + 1);
                 break;
+                
             case 'a':
-                map[p.getX_position() + 1][p.getY_position()] = ' ';
+                player.setX_position(player.getX_position() - 1);
                 break;
         }
-        map[p.getX_position()][p.getY_position()] = 'P';
+        
+        checkReachMapBoundery(player);
+        
+        dunMap[player.getX_position()][player.getY_position()] = "P ";
+    }
+    
+    private void checkReachMapBoundery(PlayerCharacter player) {
+        if (player.getX_position() < 0) {
+            player.setX_position(0);
+        }
+        else if (player.getX_position() > 39) {
+            player.setX_position(39);
+        }
+        else if (player.getY_position() < 0) {
+            player.setY_position(0);
+        }
+        else if (player.getY_position() > 24) {
+            player.setY_position(24);
+        }
     }
     
     public static void main(String[] args) {
         Map map = new Map();
-        map.createMap();
         map.printMap();
     }
 }

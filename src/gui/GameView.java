@@ -43,6 +43,14 @@ public class GameView extends JPanel{
         setPreferredSize(new Dimension(800, 950));
     }
     
+    public void updateMapGUI() {
+        outerPanel.innerPanel.innerPanelMap.updateMap();
+    }
+    
+    public void updateActionListGUI(String inString) {
+        outerPanel.innerPanel.actionListPanel.addTextToList(inString);
+    }
+    
     public static void main(String[] args) {
         JFrame frame = new JFrame("Testing");
         

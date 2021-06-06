@@ -103,7 +103,11 @@ public class OuterPanel extends JPanel{
         this.add(innerPanel);
         innerPanel.setLocation(25, 20);
         
+        // Add text to ActionListPanel
+        innerPanel.actionListPanel.addTextToList("Welcome to Dungeon "+pickedName);
+        
         // Update Map
+        // After Player created character
         innerPanel.innerPanelMap.updateMap();
         
         this.revalidate();

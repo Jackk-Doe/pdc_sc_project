@@ -23,6 +23,9 @@ public class GameControl extends JFrame{
     public static PlayerCharacter playerModel;
     public static ArrayList<MonsterCharacter> monstersModel;
     
+    public static boolean MAPTRAVELINGSTATE = true;
+    public static boolean INBATTLESTATE = false;
+    
     public GameView gameView;
     
     public GameModel gameModel;
@@ -34,7 +37,14 @@ public class GameControl extends JFrame{
         
         gameView = new GameView(gameModel);
         
-        gameView.buttonPanel.upButton.addActionListener(new TestButton());
+        gameModel.setGameView(gameView);
+        
+        GameButtonListener gameButtonListener = new GameButtonListener();
+        
+        gameView.buttonPanel.upButton.addActionListener(gameButtonListener);
+        gameView.buttonPanel.downButton.addActionListener(gameButtonListener);
+        gameView.buttonPanel.leftButton.addActionListener(gameButtonListener);
+        gameView.buttonPanel.rightButton.addActionListener(gameButtonListener);
         
         add(gameView);
         
@@ -42,16 +52,43 @@ public class GameControl extends JFrame{
         pack();
     }
     
-    private class TestButton implements ActionListener {
+    private class GameButtonListener implements ActionListener {
 
         @Override
         public void actionPerformed(ActionEvent event) {
-            if (event.getSource() == gameView.buttonPanel.upButton) {
-                gameModel.player.showStatus();
-                System.out.println("Hello");
+//            if (event.getSource() == gameView.buttonPanel.upButton) {
+//                gameModel.player.showStatus();
+//                System.out.println("Hello");
+//            }
+            
+            if (MAPTRAVELINGSTATE) {
+                
+                if (event.getSource() == gameView.buttonPanel.upButton) {
+                    gameModel.updatePlayerCurrentLocation('w');
+                    
+                }
+                
+                if (event.getSource() == gameView.buttonPanel.downButton) {
+                    gameModel.updatePlayerCurrentLocation('s');
+                    
+                }
+                
+                if (event.getSource() == gameView.buttonPanel.leftButton) {
+                    gameModel.updatePlayerCurrentLocation('a');
+                    
+                }
+                
+                if (event.getSource() == gameView.buttonPanel.rightButton) {
+                    gameModel.updatePlayerCurrentLocation('d');
+                    
+                }
+                
+//                gameView.updateMapGUI();
+                
+                
             }
             
-            
+            // Add game clear here
         }
         
     }

@@ -13,6 +13,7 @@ import characters.player.ThiefJob;
 import gui.GameView;
 import java.util.ArrayList;
 import map.Map;
+import system.Battle;
 
 /**
  *
@@ -26,6 +27,8 @@ public class GameModel {
 //    public PlayerCharacter player = new ThiefJob("Kyle");
     public ArrayList<MonsterCharacter> monsters;
     public Map map;
+    
+    public Battle battleSystem;
 
     public GameModel(GameView gameView) {
         
@@ -35,14 +38,17 @@ public class GameModel {
         monsters.add(new SlimeMonster(3, 3));
         monsters.add(new SlimeMonster(4, 9));
         monsters.add(new SlimeMonster(30, 1));
-        monsters.add(new SlimeMonster());
-        monsters.add(new SlimeMonster());
-        monsters.add(new SlimeMonster());
+        // IndexOutOfBound
+//        monsters.add(new SlimeMonster());
+//        monsters.add(new SlimeMonster());
+//        monsters.add(new SlimeMonster());
         monsters.add(new GoblinMonster(25, 21));
         
         map = new Map();
         
         map.addMonster(monsters);
+        
+        battleSystem = new Battle(gameView);
 //        gameView.outerPanel.innerPanel.innerPanelMap.updateMap();
     }
 
@@ -61,6 +67,55 @@ public class GameModel {
     public Map getMap() {
         return map;
     }
+
+    public void setGameView(GameView gameView) {
+        this.gameView = gameView;
+    }
     
+    public void updatePlayerCurrentLocation(char input) {
+        
+        map.updateMap(player, input);
+        gameView.updateMapGUI();
+        printOutDirectionGUI(input);
+        
+        // Test
+        printPlayerLocation();
+    }
     
+    public void printOutDirectionGUI(char input) {
+        
+        String stringOut = player.getName()+" moved ";
+        
+        switch (input) {
+            case 'w':
+                stringOut += "up";
+                break;
+            case 's':
+                stringOut += "down";
+                break;
+            case 'a':
+                stringOut += "left";
+                break;
+            case 'd':
+                stringOut += "right";
+                break;
+        }
+        gameView.updateActionListGUI(stringOut);
+    }
+    
+    public void printPlayerLocation() {
+        System.out.println(player.getX_position()+ " "+player.getY_position());
+    }
+    
+    private void checkEnemyEncounter() {
+        for (MonsterCharacter monster : monsters) {
+            if ((monster.getCurrentHp() > 0) &&
+                    ((player.getX_position() == monster.getX_position()) &&
+                    (player.getY_position() ==  monster.getY_position()))) {
+                
+                battleSystem.enterBattle(player, monster);
+            }
+            
+        }
+    }
 }

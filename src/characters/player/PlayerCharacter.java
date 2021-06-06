@@ -29,8 +29,8 @@ public abstract class PlayerCharacter extends Character{
     protected ArrayList<HpPotion> carryingItems;
     
     public PlayerCharacter() {
-        this.x_position = 1;
-        this.y_position = 1;
+        this.x_position = 0;
+        this.y_position = 0;
         this.defendStatus = false;
         this.chargeAttack = false;
         this.stunned = false;

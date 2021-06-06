@@ -33,11 +33,11 @@ public class ButtonPanel extends JPanel{
         
         leftButton = new JButton("LEFT");
         leftButton.setSize(70, 70);
-        leftButton.setLocation(160, 110);
+        leftButton.setLocation(20, 110);
         
         rightButton = new JButton("RIGHT");
         rightButton.setSize(70, 70);
-        rightButton.setLocation(20, 110);
+        rightButton.setLocation(160, 110);
         
         bButton = new JButton("B");
         bButton.setSize(80, 80);

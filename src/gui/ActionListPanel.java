@@ -35,15 +35,27 @@ public class ActionListPanel extends JPanel{
                 ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
                 ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         scrollPane.setPreferredSize(new Dimension(210, 200));
+//        scrollPane.setSize(210, 200);
         
         add(scrollPane);
         
     }
     
     // Add new action string to the list, then update UI
-    public void updateList(String newString) {
+    public void addTextToList(String newString) {
         
-        arrayList.add(newString);
+        newString = "> " + newString;
+        
+        /*
+        If the income string is too long (does not fit panel),
+        cut string with private method
+        */
+        if (newString.length() > 28) {
+            splitString(newString);
+        }
+        else {
+            arrayList.add(newString);
+        }
         
         String[] newList = new String[arrayList.size()];
         
@@ -52,6 +64,29 @@ public class ActionListPanel extends JPanel{
         }
         
         actionList.setListData(newList);
+    }
+    
+    // Split and cut the incoming String
+    private void splitString(String inString) {
+        
+        int startSplit = 0;
+        int endSplit = 28;
+        
+        arrayList.add(inString.substring(startSplit, endSplit) + "..");
+        
+        do {            
+            startSplit = endSplit;
+            endSplit += 28;
+            
+            if (endSplit >= inString.length()) {
+                endSplit = inString.length();
+                arrayList.add(inString.substring(startSplit, endSplit));
+                break;
+            }
+            
+            arrayList.add(inString.substring(startSplit, endSplit) + "..");
+            
+        } while (endSplit < inString.length());
     }
     
     public static void main(String[] args) {
@@ -66,7 +101,7 @@ public class ActionListPanel extends JPanel{
             System.out.print("> ");
             Scanner scan = new Scanner(System.in);
             String text = scan.nextLine();
-            actionListPanel.updateList(text);
+            actionListPanel.addTextToList(text);
         }
     }
 }

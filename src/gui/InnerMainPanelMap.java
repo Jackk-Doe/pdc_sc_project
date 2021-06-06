@@ -43,7 +43,7 @@ public class InnerMainPanelMap extends JPanel{
             String newStringMap = "";
             
             for (int x = 0; x < 40; x++) {
-                newStringMap += dungeonMap.newMap[y][x];
+                newStringMap += dungeonMap.dunMap[x][y];
             }
             
             labels[y] = new JLabel(newStringMap);
@@ -53,22 +53,12 @@ public class InnerMainPanelMap extends JPanel{
             newStringMap = "";
         }
         
-//        String stars = "";
-//        
-//        for (int i = 0; i < 40; i++) {
-//            stars += "* ";
-//        }
-//        
-//        for (int i = 0; i < 25; i++) {
-//            labels[i] = new JLabel(stars);
-//            add(labels[i]);
-//        }
-        
 //        setPreferredSize(new Dimension(420, 425));
 //        setSize(420, 425);
         
     }
 
+    // For testing
     public InnerMainPanelMap(Map inputMap) {
         setLayout(null);
         
@@ -85,7 +75,7 @@ public class InnerMainPanelMap extends JPanel{
             String newStringMap = "";
             
             for (int x = 0; x < 40; x++) {
-                newStringMap += dungeonMap.newMap[y][x];
+                newStringMap += dungeonMap.dunMap[x][y];
             }
             
             System.out.println(newStringMap);
@@ -105,7 +95,7 @@ public class InnerMainPanelMap extends JPanel{
             String newStringMap = "";
             
             for (int x = 0; x < 40; x++) {
-                newStringMap += dungeonMap.newMap[y][x];
+                newStringMap += gameModel.map.dunMap[x][y];
             }
             
             labels[y].setText(newStringMap);
