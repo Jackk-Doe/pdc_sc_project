@@ -5,8 +5,10 @@
  */
 package gui;
 
+import characters.monsters.MonsterCharacter;
 import characters.player.ThiefJob;
 import characters.player.WarriorJob;
+import control.GameControl;
 import game.GameModel;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -28,8 +30,11 @@ public class OuterPanel extends JPanel{
     
     private GameStartPanel gameStartPanel;
     private GameStartPanelCreateCharacter gameStartPanelCreateCharacter;
+    private GameStartInstructionPanel gameStartInstructionPanel;
     
     public InnerPanel innerPanel;
+    
+    public GameEndPanel gameEndPanel;
     
     
     public OuterPanel(GameModel model) {
@@ -43,12 +48,21 @@ public class OuterPanel extends JPanel{
 //        innerPanel = new InnerPanel(gameModel);
         gameStartPanel = new GameStartPanel();
         gameStartPanelCreateCharacter = new GameStartPanelCreateCharacter();
+        gameEndPanel = new GameEndPanel(null);
+        gameStartInstructionPanel = new GameStartInstructionPanel();
         
         gameStartPanel.getNewGameButton().addActionListener(new GameStartButtonListener());
         gameStartPanel.getLoadGameButton().addActionListener(new GameStartButtonListener());
         
+        gameStartInstructionPanel.getNextButton().addActionListener(new GameStartButtonListener());
+        gameStartInstructionPanel.getStartButton().addActionListener(new GameStartButtonListener());
+        
         gameStartPanelCreateCharacter.getPickWarriorButton().addActionListener(new GameStartButtonListener());
         gameStartPanelCreateCharacter.getPickThiefButton().addActionListener(new GameStartButtonListener());
+        
+        gameStartPanelCreateCharacter.getPickWarriorButton().setEnabled(false);
+        gameStartPanelCreateCharacter.getPickThiefButton().setEnabled(false);
+        
         gameStartPanelCreateCharacter.getTextField().getDocument().addDocumentListener(new TextFieldDocumentListener());
         
 //        gameStartPanel.setSize(680, 490);
@@ -67,9 +81,35 @@ public class OuterPanel extends JPanel{
 //        setSize(730, 500);
     }
     
-    // Change from GameStartPanel to GameStartPanelCreateCharacter
-    private void changeToCreateNewCharacPanel() {
+    // Change from InnerPanel to GameOverPanel when player was defeated
+    public void changeGameEndPanel(String inString) {
+        gameEndPanel = new GameEndPanel(inString);
+        gameEndPanel.setLocation(25, 20);
+        
+        gameEndPanel.getEndButton().addActionListener(new GameStartButtonListener());
+        
+        this.remove(innerPanel);
+        this.add(gameEndPanel);
+        
+        this.revalidate();
+        this.repaint();
+        
+        innerPanel.actionListPanel.printEnd();
+    }
+    
+    // Explain Game Mechanic through InstructionPanel
+    // Then change to CreateNewCharacterPanel
+    private void changeToInstructionPanel() {
         this.remove(gameStartPanel);
+        this.add(gameStartInstructionPanel);
+        gameStartInstructionPanel.setLocation(25, 20);
+        this.revalidate();
+        this.repaint();
+    }
+    
+    // Change from InstructionPanel to GameStartPanelCreateCharacter
+    private void changeToCreateNewCharacPanel() {
+        this.remove(gameStartInstructionPanel);
         this.add(gameStartPanelCreateCharacter);
         gameStartPanelCreateCharacter.setLocation(25, 20);
         this.revalidate();
@@ -77,7 +117,8 @@ public class OuterPanel extends JPanel{
     }
     
     // Create a new Character through the GameStartPanelCreateCharacter Panel
-    private void createPlayerCharacThenChangeToMapPanel(String classInput, String name) {
+    // Then Change to InstructionPanel
+    private void createPlayerCharacThenChangeToInstructionPanel(String classInput, String name) {
         
         String pickedName = name;
         
@@ -97,11 +138,14 @@ public class OuterPanel extends JPanel{
         // Change to InnerPanel
         this.remove(gameStartPanelCreateCharacter);
         
-        // Define innerPanel after created Character,
+        // Define innerPanel AFTER CREATED Character,
         // Result: Prevent NullPointer
         innerPanel = new InnerPanel(gameModel);
         this.add(innerPanel);
         innerPanel.setLocation(25, 20);
+        
+        // Set MAPTRAVELINGSTATE to true after AFTER CREATED and map
+        GameControl.MAPTRAVELINGSTATE = true;
         
         // Add text to ActionListPanel
         innerPanel.actionListPanel.addTextToList("Welcome to Dungeon "+pickedName);
@@ -152,17 +196,30 @@ public class OuterPanel extends JPanel{
         public void actionPerformed(ActionEvent event) {
             
             if (event.getSource() == gameStartPanel.getNewGameButton()) {
+                changeToInstructionPanel();
+            }
+            
+            if (event.getSource() == gameStartInstructionPanel.getNextButton()) {
+                gameStartInstructionPanel.readSecondText();
+                gameStartInstructionPanel.getNextButton().setEnabled(false);
+            }
+            
+            if (event.getSource() == gameStartInstructionPanel.getStartButton()) {
                 changeToCreateNewCharacPanel();
             }
             
             if (event.getSource() == gameStartPanelCreateCharacter.getPickWarriorButton()) {
                 String name = gameStartPanelCreateCharacter.getTextField().getText().trim();
-                createPlayerCharacThenChangeToMapPanel("W", name);
+                createPlayerCharacThenChangeToInstructionPanel("W", name);
             }
             
             if (event.getSource() == gameStartPanelCreateCharacter.getPickThiefButton()) {
                 String name = gameStartPanelCreateCharacter.getTextField().getText().trim();
-                createPlayerCharacThenChangeToMapPanel("T", name);
+                createPlayerCharacThenChangeToInstructionPanel("T", name);
+            }
+            
+            if (event.getSource() == gameEndPanel.getEndButton()) {
+                System.exit(0);
             }
         }
         

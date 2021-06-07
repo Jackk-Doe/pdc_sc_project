@@ -1,0 +1,28 @@
+Dungeon Mechanic Explain:
+.
+The Map of Dungeon will be printed after player created character
+.
+On the Map 'P' is used to represent Player's character current location on Map
+                  'S' is for Slime monster
+                  'G' is for Goblin monster
+                  'W' is for Skeleton Warrior monster
+                  'D' is for Dragon monster
+
+Player will have to use UP, DOWN, LEFT, RIGHT to move inside the Dungeon
+.
+For Battle state, Player will use UP, DOWN to select commands and A to trigger commands
+.
+Others Buttons like B, START, AND SELECT does nothing but just make the look of GAMEBOY
+.
+Player will have to choose to play between WARRIOR and THIEF
+.
+WARRIOR : A forceful soldier who survived from countless battle field
+                  Specialize in endurance, let oneself stand still in the combat
+                  With more combat experience Warrior can learn to a Life Drain Skill to steal enemy's hp
+                  And Shield Smash to stun enemy with Warrior heavy shield
+.
+Thief   :    Shadow bringer who fight above the battle line, which led to absolute victory
+                  Using knife to kill enemy before one known, with thier deadly Poison
+                  Thief were also well-known with their LUCK in fight enemy's hp
+                  With more killing experience Thief will learn to kill it's target faster with Double Strike Skill
+                  And with it's Poison Knife, even the strongest man will have to run for life

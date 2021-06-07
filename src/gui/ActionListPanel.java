@@ -5,7 +5,10 @@
  */
 package gui;
 
+import java.awt.Adjustable;
 import java.awt.Dimension;
+import java.awt.event.AdjustmentEvent;
+import java.awt.event.AdjustmentListener;
 import java.util.ArrayList;
 import java.util.Scanner;
 import javax.swing.BorderFactory;
@@ -21,8 +24,9 @@ import javax.swing.ScrollPaneConstants;
  */
 public class ActionListPanel extends JPanel{
     
-    ArrayList<String> arrayList;
-    JList<String> actionList;
+    private ArrayList<String> arrayList;
+    private JList<String> actionList;
+    private JScrollPane scrollPane;
 
     public ActionListPanel() {
         
@@ -31,10 +35,22 @@ public class ActionListPanel extends JPanel{
         arrayList = new ArrayList<>();
         actionList = new JList<>();
         
-        JScrollPane scrollPane = new JScrollPane(actionList,
+        scrollPane = new JScrollPane(actionList,
                 ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
                 ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         scrollPane.setPreferredSize(new Dimension(210, 200));
+        
+        // This AdjustmentListener 
+        // Automaticly move the scrollPane down every time when new item is added
+        // Problem : Can't scroll UP (Fixed)
+        // Fixed! read code below
+        // Solution : actionList.ensureIndexIsVisible(newList.length - 1);
+//        scrollPane.getVerticalScrollBar().addAdjustmentListener(new AdjustmentListener() {
+//            @Override
+//            public void adjustmentValueChanged(AdjustmentEvent e) {
+//                e.getAdjustable().setValue(e.getAdjustable().getMaximum());
+//            }
+//        });
 //        scrollPane.setSize(210, 200);
         
         add(scrollPane);
@@ -64,6 +80,9 @@ public class ActionListPanel extends JPanel{
         }
         
         actionList.setListData(newList);
+        
+        // Fixed scrollPane problems
+        actionList.ensureIndexIsVisible(newList.length - 1);
     }
     
     // Split and cut the incoming String
@@ -87,6 +106,12 @@ public class ActionListPanel extends JPanel{
             arrayList.add(inString.substring(startSplit, endSplit) + "..");
             
         } while (endSplit < inString.length());
+    }
+    
+    public void printEnd() {
+        for (String string : arrayList) {
+            System.out.println(string);
+        }
     }
     
     public static void main(String[] args) {

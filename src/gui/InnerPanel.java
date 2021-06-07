@@ -5,6 +5,7 @@
  */
 package gui;
 
+import characters.monsters.MonsterCharacter;
 import characters.player.PlayerCharacter;
 import game.GameModel;
 import java.awt.Color;
@@ -41,8 +42,8 @@ public class InnerPanel extends JPanel{
         innerPanelMap.setLocation(10, 20);
         
         // Add Monster to Battle
-        innerPanelBattle = new InnerMainPanelBattle();
-        innerPanelBattle.setSize(420, 425);
+        innerPanelBattle = new InnerMainPanelBattle(gameModel);
+//        innerPanelBattle.setSize(420, 425);
         
 //        innerMainPanel = new InnerMainPanelMap();
 //        innerMainPanel.setSize(420, 425);
@@ -66,6 +67,48 @@ public class InnerPanel extends JPanel{
         setSize(680, 490);
     }
     
+    // New One
+    // V1
+//    public void changeMapToBattleGUI(MonsterCharacter inMonster) {
+//        
+////        innerPanelBattle = new InnerMainPanelBattle(gameModel);
+//        innerPanelBattle.setMonsterStatusGUI();
+//        innerPanelBattle.setLocation(10, 20);
+//        
+//        this.remove(innerPanelMap);
+//        this.add(innerPanelBattle);
+//        
+//        this.revalidate();
+//        this.repaint();
+//    }
+    
+    // V2
+    public void changeMapToBattleGUI() {
+        
+//        innerPanelBattle = new InnerMainPanelBattle(gameModel);
+        innerPanelBattle.setMonsterStatusGUI();
+        innerPanelBattle.setSize(420, 425);
+        innerPanelBattle.setLocation(10, 20);
+        
+        this.remove(innerPanelMap);
+        this.add(innerPanelBattle);
+        
+        this.revalidate();
+        this.repaint();
+    }
+    
+    public void changeBattleBackToMapGUI() {
+        
+        this.remove(innerPanelBattle);
+        this.add(innerPanelMap);
+        
+//        innerPanelBattle = null;
+        
+        this.revalidate();
+        this.repaint();
+    }
+    
+    // Old one
     public void changeState(int inputed) {
         // Change to Battle 
         if (inputed == 1) {

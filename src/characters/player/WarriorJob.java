@@ -20,7 +20,8 @@ public class WarriorJob extends PlayerCharacter{
         this.job = "Warrior";
         this.fullHp = 30;
         this.currentHp = fullHp;
-        this.baseAtk = 8;
+//        this.baseAtk = 8;
+        this.baseAtk = 888;
         this.armor = 3;
         this.luck = 1;
         this.level = 1;
@@ -138,7 +139,8 @@ public class WarriorJob extends PlayerCharacter{
         if (this.passiveSkill1) {
             int lifeSteal = totalAtkDamage/3;
             this.currentHp += lifeSteal;
-            System.out.println(this.name+" recieved "+lifeSteal+" hp from "+this.passiveSkill1Name+" skill\n");
+            
+            gameView.updateActionListGUI(this.name+" recieved "+lifeSteal+" hp from "+this.passiveSkill1Name+" skill");
             if (this.currentHp >= this.fullHp) {
                 this.currentHp = this.fullHp;
             }
@@ -148,9 +150,9 @@ public class WarriorJob extends PlayerCharacter{
             int stunChance = rand.nextInt(18)+1;
             if (stunChance <= this.luck) {
                 monster.setStunned(true);
-                System.out.println(this.name+" smashed with "+this.passiveSkill2Name+" skilled !\n");
+                gameView.updateActionListGUI(this.name+" smashed with "+this.passiveSkill2Name+" skilled !");
                 createLoadingTime(1);
-                System.out.println(monster.getName()+" was stunned with "+this.name+" shield !\n");
+                gameView.updateActionListGUI(monster.getName()+" was stunned with "+this.name+" shield !");
             }
         }
         

@@ -35,7 +35,7 @@ public class PlayerStatusPanel extends JPanel {
 
         labels = new JLabel[10];
 
-        playerStatus = player.newedShowStatus();
+        playerStatus = player.showStatus();
 
         for (int i = 0; i < 10; i++) {
             labels[i] = new JLabel(playerStatus[i]);
@@ -46,7 +46,17 @@ public class PlayerStatusPanel extends JPanel {
 //        setSize(230, 185);
     }
     
-    // Need Update mehtod?
+    // Need Update mehtod? (YES)
+    public void updatePlayerStatusGUI() {
+        playerStatus = player.showStatus();
+        
+        for (int i = 0; i < 10; i++) {
+            labels[i].setText(playerStatus[i]);
+        }
+        
+//        this.revalidate();
+//        this.repaint();
+    }
 
     public static void main(String[] args) {
         PlayerCharacter player = new WarriorJob("Ajax", 300, 5);

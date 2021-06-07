@@ -34,7 +34,7 @@ public class GameStartPanelCreateCharacter extends JPanel {
         textField = new JTextField();
         textField.setFont(new Font("Arial", Font.PLAIN, 20));
         textField.setSize(160, 50);
-        textField.setLocation(280, 100);
+        textField.setLocation(275, 100);
         
         classLabel = new JLabel("Class");
         classLabel.setFont(new Font("Arial", Font.BOLD, 30));

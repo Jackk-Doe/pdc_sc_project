@@ -37,7 +37,7 @@ public abstract class PlayerCharacter extends Character{
         this.poisoned = false;
         this.passiveSkill1 = false;
         this.passiveSkill2 = false;
-        carryingItems = new ArrayList<HpPotion>();
+        carryingItems = new ArrayList<>();
     }
 
     public String getJob() {
@@ -68,29 +68,7 @@ public abstract class PlayerCharacter extends Character{
     }
 
     @Override
-    public void showStatus() {
-        String status = "+-----------------------+\n";
-        status += "| NAME  : " + String.format("%-14s", this.name) + "|\n";
-        status += "| JOB   : " + String.format("%-14s", this.job) + "|\n";
-        status += "| LVL   : " + String.format("%-14d", this.level) + "|\n";
-        status += "| HP    : " + String.format("%2d", this.currentHp) + "/" + String.format("%-11d", this.fullHp) + "|\n";
-        status += "| ATK   : " + String.format("%-14d", this.baseAtk) + "|\n";
-        status += "| ARMOR : " + String.format("%-14d", this.armor) + "|\n";
-        status += "| LUCK  : " + String.format("%-14d", this.luck) + "|\n";
-        status += "| POTION: " + String.format("%-14d", carryingItems.size()) + "|\n";
-        if (passiveSkill1) {
-            status += "| SKILL : " + String.format("%-14s", this.passiveSkill1Name) + "|\n";
-        }
-        if (passiveSkill2) {
-            status += "| SKILL : " + String.format("%-14s", this.passiveSkill2Name) + "|\n";
-        }
-        status += "+-----------------------+";
-        System.out.println(status);
-        
-    }
-    
-    @Override
-    public String[] newedShowStatus() {
+    public String[] showStatus() {
         
         String[] status = new String[10];
         
@@ -135,36 +113,34 @@ public abstract class PlayerCharacter extends Character{
         boolean lvlUpCheck = gainExp(exp);
         if (lvlUpCheck) {
             if (this.level == 5) {
-                System.out.println(this.name+" has maxed "+this.job+" LEVEL\n");
+                gameView.updateActionListGUI(this.name+" has maxed "+this.job+" LEVEL");
             } else {
-                System.out.println(this.name+" has level-upped !\n");
+                gameView.updateActionListGUI(this.name+" has level-upped !");
             }
             createLoadingTime(1);
             
             if (this.passiveSkill1 && this.level == 3) {
-                System.out.println(this.name+" has learned new passive skill : "
-                        +this.passiveSkill1Name+"\n");
+                gameView.updateActionListGUI(this.name+" has learned new passive skill : "
+                        +this.passiveSkill1Name);
                 createLoadingTime(1);
             }
             
             if (this.passiveSkill2 && this.level == 5) {
-                System.out.println(this.name+" has learned new passive skill : "
-                        +this.passiveSkill2Name+"\n");
+                gameView.updateActionListGUI(this.name+" has learned new passive skill : "
+                        +this.passiveSkill2Name);
                 createLoadingTime(1);
             }
         }
         
         boolean itemDropCheck = checkItemDrop();
         if (itemDropCheck) {
-            System.out.println("Item was dropped from the monster\n");
-            createLoadingTime(2);
-            System.out.println(this.name+" recieved 1 potion item\n");
-            createLoadingTime(2);
+            gameView.updateActionListGUI("Item was dropped from the monster");
+            createLoadingTime(1);
+            gameView.updateActionListGUI(this.name+" recieved 1 potion item");
+            createLoadingTime(1);
         }
         
-        System.out.println("Updated "+this.name+" status: ");
-        createLoadingTime(2);
-        showStatus();
-        createLoadingTime(2);
+        gameView.updateActionListGUI("Updated "+this.name+" status: ");
+        createLoadingTime(1);
     }
 }

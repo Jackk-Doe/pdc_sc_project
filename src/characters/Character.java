@@ -5,6 +5,7 @@
  */
 package characters;
 
+import gui.GameView;
 import java.util.Random;
 
 /**
@@ -27,6 +28,8 @@ public abstract class Character {
     protected boolean chargeAttack;
     protected boolean stunned;
     protected boolean poisoned;
+    
+    protected GameView gameView;
 
     public int getX_position() {
         return x_position;
@@ -117,21 +120,12 @@ public abstract class Character {
         setX_position(x);
         setY_position(y);
     }
-    
-    public void showStatus()
-    {
-        String status = "+-------------------+\n";
-        status += "| NAME : " + String.format("%-11s", this.name) + "|\n";
-        status += "| LVL  : " + String.format("%-11d", this.level) + "|\n";
-        status += "| HP   : " + String.format("%2d", this.currentHp) + "/" + String.format("%-8d", this.fullHp) + "|\n";
-        status += "| ATK  : " + String.format("%-11d", this.baseAtk) + "|\n";
-        status += "| ARMOR: " + String.format("%-11d", this.armor) + "|\n";
-        status += "| LUCK : " + String.format("%-11d", this.luck) + "|\n";
-        status += "+-------------------+";
-        System.out.println(status);
+
+    public void setGameView(GameView gameView) {
+        this.gameView = gameView;
     }
     
-    public String[] newedShowStatus() {
+    public String[] showStatus() {
         
         String[] status = new String[6];
         

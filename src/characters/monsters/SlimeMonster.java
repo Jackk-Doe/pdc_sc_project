@@ -31,7 +31,7 @@ public class SlimeMonster extends MonsterCharacter{
         super();
         this.name = "Slime";
         this.x_position = rand.nextInt(35)+1;
-        this.y_position = rand.nextInt(10)+1;
+        this.y_position = rand.nextInt(8)+1;
         this.fullHp = 15;
         this.currentHp = fullHp;
         this.baseAtk = 6;
@@ -69,11 +69,11 @@ public class SlimeMonster extends MonsterCharacter{
             int poisonChance = rand.nextInt(10)+1;
             if (poisonChance <= this.luck) {
                 player.setPoisoned(true);
-                System.out.println(this.getName()+" hit "+player.getName()+" with poison !\n");
+                gameView.updateActionListGUI(this.getName()+" hit "+player.getName()+" with poison !");
                 createLoadingTime(1);
-                System.out.println(player.getName()+" got poisoned");
+                gameView.updateActionListGUI(player.getName()+" got poisoned");
                 createLoadingTime(1);
-                System.out.println(player.getName()+" will recieve 5 damages for 3 turns\n");
+                gameView.updateActionListGUI(player.getName()+" will recieve 5 damages for 3 turns");
             }
         }
         

@@ -5,13 +5,13 @@
  */
 package control;
 
-import characters.monsters.MonsterCharacter;
-import characters.player.PlayerCharacter;
 import game.GameModel;
 import gui.GameView;
+import java.awt.Dimension;
+import java.awt.Point;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 import javax.swing.JFrame;
 
 /**
@@ -20,10 +20,7 @@ import javax.swing.JFrame;
  */
 public class GameControl extends JFrame{
     
-    public static PlayerCharacter playerModel;
-    public static ArrayList<MonsterCharacter> monstersModel;
-    
-    public static boolean MAPTRAVELINGSTATE = true;
+    public static boolean MAPTRAVELINGSTATE = false;
     public static boolean INBATTLESTATE = false;
     
     public GameView gameView;
@@ -31,6 +28,7 @@ public class GameControl extends JFrame{
     public GameModel gameModel;
     
     public GameControl() {
+        
         super("Nintendo GAMEBOY Simulator");
         
         gameModel = new GameModel(gameView);
@@ -46,20 +44,30 @@ public class GameControl extends JFrame{
         gameView.buttonPanel.leftButton.addActionListener(gameButtonListener);
         gameView.buttonPanel.rightButton.addActionListener(gameButtonListener);
         
+        gameView.buttonPanel.aButton.addActionListener(gameButtonListener);
+        
         add(gameView);
         
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         pack();
     }
     
+    private void moveBetweenBattleJList(int currentIndex, char input) {
+        
+        switch (input) {
+            case 'w':
+                gameView.outerPanel.innerPanel.innerPanelBattle.commandList.setSelectedIndex(currentIndex - 1);
+                break;
+            case 's':
+                gameView.outerPanel.innerPanel.innerPanelBattle.commandList.setSelectedIndex(currentIndex + 1);
+                break;
+        }
+    }
+    
     private class GameButtonListener implements ActionListener {
 
         @Override
         public void actionPerformed(ActionEvent event) {
-//            if (event.getSource() == gameView.buttonPanel.upButton) {
-//                gameModel.player.showStatus();
-//                System.out.println("Hello");
-//            }
             
             if (MAPTRAVELINGSTATE) {
                 
@@ -83,9 +91,31 @@ public class GameControl extends JFrame{
                     
                 }
                 
-//                gameView.updateMapGUI();
+            }
+            
+            if (INBATTLESTATE) {
                 
+                int listIndex = gameView.outerPanel.innerPanel.innerPanelBattle.commandList.getSelectedIndex();
+                gameView.outerPanel.innerPanel.innerPanelBattle.commandList.setSelectedIndex(0);
                 
+                if (event.getSource() == gameView.buttonPanel.upButton) {
+                    moveBetweenBattleJList(listIndex, 'w');
+                }
+                
+                if (event.getSource() == gameView.buttonPanel.downButton) {
+                    moveBetweenBattleJList(listIndex, 's');
+                }
+                
+                if (event.getSource() == gameView.buttonPanel.aButton) {
+                    int playerChoice = gameView.outerPanel.innerPanel.innerPanelBattle.commandList.getSelectedIndex();
+                    System.out.println(playerChoice);
+                    
+                    // Player's action
+                    gameModel.readPlayerBattleCommand(listIndex);
+                }
+                
+                // For checking current JList index
+//                System.out.println(gameView.outerPanel.innerPanel.innerPanelBattle.commandList.getSelectedIndex());
             }
             
             // Add game clear here
@@ -95,6 +125,10 @@ public class GameControl extends JFrame{
     
     public static void main(String[] args) {
         JFrame frame = new GameControl();
+        
+        Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
+        frame.setLocation(new Point((d.width/2) - (frame.getWidth()/2), (d.height/2) - (frame.getHeight()/2)));
+        
         frame.setVisible(true);
         
         

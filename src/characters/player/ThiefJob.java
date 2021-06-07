@@ -147,7 +147,7 @@ public class ThiefJob extends PlayerCharacter {
         if (this.passiveSkill1) {
             int doubleAttackChance = rand.nextInt(22)+1;
             if (doubleAttackChance <= this.luck) {
-                System.out.println(this.name+" triggered "+this.passiveSkill1Name+" skill !\n");
+                gameView.updateActionListGUI(this.name+" triggered "+this.passiveSkill1Name+" skill !");
                 monster.setCurrentHp(monster.getCurrentHp() + (monster.getArmor() - this.baseAtk));
             }
         }
@@ -156,11 +156,11 @@ public class ThiefJob extends PlayerCharacter {
             int poisonChance = rand.nextInt(22)+1;
             if (poisonChance <= this.luck) {
                 monster.setPoisoned(true);
-                System.out.println(this.name+" throwed a poisoned knife !\n");
+                gameView.updateActionListGUI(this.name+" throwed a poisoned knife !");
                 createLoadingTime(1);
-                System.out.println(monster.getName()+" was poisoned\n");
+                gameView.updateActionListGUI(monster.getName()+" was poisoned");
                 createLoadingTime(1);
-                System.out.println(monster.getName()+" will recieve 5 damages for 3 turns\n");
+                gameView.updateActionListGUI(monster.getName()+" will recieve 5 damages for 3 turns");
             }
         }
         

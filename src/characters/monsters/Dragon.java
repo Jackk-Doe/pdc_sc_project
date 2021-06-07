@@ -15,8 +15,8 @@ public class Dragon extends MonsterCharacter{
     public Dragon() {
         super();
         this.name = "Ancient Dragon";
-        this.x_position = 38;
-        this.y_position = 38;
+        this.x_position = 39;
+        this.y_position = 24;
         this.fullHp = 99;
         this.currentHp = fullHp;
         this.baseAtk = 16;
@@ -24,19 +24,6 @@ public class Dragon extends MonsterCharacter{
         this.luck = 3;
         this.level = 5;
         this.exp = 100;
-    }
-    
-    @Override
-    public void showStatus() {
-        String status = "+------------------------+\n";
-        status += "| NAME : " + String.format("%-16s", this.name) + "|\n";
-        status += "| LVL  : " + String.format("%-16d", this.level) + "|\n";
-        status += "| HP   : " + String.format("%2d", this.currentHp) + "/" + String.format("%-13d", this.fullHp) + "|\n";
-        status += "| ATK  : " + String.format("%-16d", this.baseAtk) + "|\n";
-        status += "| ARMOR: " + String.format("%-16d", this.armor) + "|\n";
-        status += "| LUCK : " + String.format("%-16d", this.luck) + "|\n";
-        status += "+------------------------+";
-        System.out.println(status);
     }
     
     @Override
@@ -67,11 +54,11 @@ public class Dragon extends MonsterCharacter{
             int poisonChance = rand.nextInt(18)+1;
             if (poisonChance <= this.luck) {
                 player.setPoisoned(true);
-                System.out.println(this.getName()+" use Poison Breath skill !\n");
+                gameView.updateActionListGUI(this.getName()+" use Poison Breath skill !");
                 createLoadingTime(1);
-                System.out.println(player.getName()+" was poisoned\n");
+                gameView.updateActionListGUI(player.getName()+" was poisoned");
                 createLoadingTime(1);
-                System.out.println(player.getName()+" will recieve 5 damages for 3 turns\n");
+                gameView.updateActionListGUI(player.getName()+" will recieve 5 damages for 3 turns");
             }
         }
         
@@ -79,9 +66,9 @@ public class Dragon extends MonsterCharacter{
             int stunChance = rand.nextInt(18)+1;
             if (stunChance <= this.luck) {
                 player.setStunned(true);
-                System.out.println(this.getName()+" smashed "+player.getName()+" with tail !\n");
+                gameView.updateActionListGUI(this.getName()+" smashed "+player.getName()+" with tail !");
                 createLoadingTime(1);
-                System.out.println(player.getName()+" got stunned\n");
+                gameView.updateActionListGUI(player.getName()+" got stunned");
             }
         }
         

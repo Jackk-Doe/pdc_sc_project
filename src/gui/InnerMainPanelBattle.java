@@ -7,8 +7,11 @@ package gui;
 
 import characters.monsters.Dragon;
 import characters.monsters.GoblinMonster;
+import characters.monsters.MonsterCharacter;
+import game.GameModel;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.util.Scanner;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JFrame;
@@ -21,44 +24,77 @@ import javax.swing.JPanel;
  */
 public class InnerMainPanelBattle extends JPanel{
     
-    private JList<String> commandList;
+    public JList<String> commandList;
     
     public MonsterStatusPanel monsterStatusPanel;
+    
+    public MonsterCharacter monster;
+    
+    private GameModel gameModel;
 
-    public InnerMainPanelBattle() {
+    public InnerMainPanelBattle(GameModel inGameModel) {
+        
+        this.gameModel = inGameModel;
         
         setLayout(null);
         
         setBorder(BorderFactory.createTitledBorder("Battle"));
         
-//        setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-        
         String[] battleCommandList = {"1) Attack enemy", "2) Take guard", 
             "3) Charge attack", "4) Use potion" };
         
+        // Add avialable command to JList
         commandList = new JList<>(battleCommandList);
+        
+        // Set the first selectedIndex to 0
+        commandList.setSelectedIndex(0);
+        
+        // Set font size and location
         commandList.setFont(new Font("Helvetica", Font.BOLD, 28));
         commandList.setSize(380, 200);
         commandList.setLocation(20, 30);
         
-        monsterStatusPanel = new MonsterStatusPanel(new Dragon());
-        monsterStatusPanel.setSize(230, 165);
+        monsterStatusPanel = new MonsterStatusPanel();
         monsterStatusPanel.setLocation(90, 250);
         
         add(commandList);
+        
+        setSize(420, 425);
+    }
+    
+    // Set Monster's Status GUI
+    public void setMonsterStatusGUI() {
+        
+        this.monster = gameModel.currentMonster;
+        
+        monsterStatusPanel.updateMonsterStatusGUI(monster);
+        
         add(monsterStatusPanel);
         
-//        setSize(420, 425);
-//        setPreferredSize(new Dimension(420, 425));
+        this.revalidate();
+        this.repaint();
     }
     
     public static void main(String[] args) {
         JFrame frame = new JFrame("Test");
-        InnerMainPanelBattle innerMainPanelBattle = new InnerMainPanelBattle();
+//        InnerMainPanelBattle innerMainPanelBattle = new InnerMainPanelBattle();
         frame.getContentPane().add(innerMainPanelBattle);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
         frame.setVisible(true);
+        
+        Scanner scan = new Scanner(System.in);
+        System.out.print("> ");
+        String a = scan.nextLine();
+        
+//        innerMainPanelBattle.setMonsterStatusGUI(new Dragon());
+        
+        System.out.print("> ");
+        String a2 = scan.nextLine();
+        
+//        innerMainPanelBattle.setMonsterStatusGUI(new GoblinMonster());
+        frame.revalidate();
+        frame.repaint();
     }
     
 }

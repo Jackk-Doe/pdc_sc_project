@@ -30,7 +30,7 @@ public class SkeletonWarriorMonster extends MonsterCharacter{
         super();
         this.name = "Skeleton Warrior";
         this.x_position = rand.nextInt(35)+1;
-        this.y_position = rand.nextInt(10)+20;
+        this.y_position = rand.nextInt(15)+10;
         this.fullHp = 35;
         this.currentHp = fullHp;
         this.baseAtk = 13;
@@ -40,19 +40,6 @@ public class SkeletonWarriorMonster extends MonsterCharacter{
         this.exp = 30;
     }
 
-    @Override
-    public void showStatus() {
-        String status = "+------------------------+\n";
-        status += "| NAME : " + String.format("%-16s", this.name) + "|\n";
-        status += "| LVL  : " + String.format("%-16d", this.level) + "|\n";
-        status += "| HP   : " + String.format("%2d", this.currentHp) + "/" + String.format("%-13d", this.fullHp) + "|\n";
-        status += "| ATK  : " + String.format("%-16d", this.baseAtk) + "|\n";
-        status += "| ARMOR: " + String.format("%-16d", this.armor) + "|\n";
-        status += "| LUCK : " + String.format("%-16d", this.luck) + "|\n";
-        status += "+------------------------+";
-        System.out.println(status);
-    }
-    
     @Override
     public void attack(PlayerCharacter player) {
         int totalAtkDamage = rand.nextInt(4) + this.baseAtk;
@@ -81,9 +68,9 @@ public class SkeletonWarriorMonster extends MonsterCharacter{
             int stunChance = rand.nextInt(18)+1;
             if (stunChance <= this.luck) {
                 player.setStunned(true);
-                System.out.println(this.getName()+" smashed "+player.getName()+" with shield !\n");
+                gameView.updateActionListGUI(this.getName()+" smashed "+player.getName()+" with shield !");
                 createLoadingTime(1);
-                System.out.println(player.getName()+" got stunned\n");
+                gameView.updateActionListGUI(player.getName()+" got stunned");
             }
         }
         

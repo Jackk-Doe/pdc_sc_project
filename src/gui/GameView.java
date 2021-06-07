@@ -5,6 +5,7 @@
  */
 package gui;
 
+import characters.monsters.MonsterCharacter;
 import game.GameModel;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -51,12 +52,33 @@ public class GameView extends JPanel{
         outerPanel.innerPanel.actionListPanel.addTextToList(inString);
     }
     
-    public static void main(String[] args) {
-        JFrame frame = new JFrame("Testing");
-        
-        frame.getContentPane().add(new GameView());
-        frame.pack();
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setVisible(true);
+    // V1
+//    public void updateMapToBattleGUI(MonsterCharacter inMonster) {
+//        outerPanel.innerPanel.changeMapToBattleGUI(inMonster);
+//        this.revalidate();
+//        this.repaint();
+//    }
+    
+    // V2
+    public void updateMapToBattleGUI() {
+        outerPanel.innerPanel.changeMapToBattleGUI();
+        this.revalidate();
+        this.repaint();
+    }
+    
+    public void updateBattleToMapGUI() {
+        outerPanel.innerPanel.changeBattleBackToMapGUI();
+    }
+    
+    public void updateMonsterStatusGUI(MonsterCharacter inMonster) {
+        outerPanel.innerPanel.innerPanelBattle.monsterStatusPanel.updateMonsterStatusGUI(inMonster);
+    }
+    
+    public void updatePlayerStatusGUI() {
+        outerPanel.innerPanel.playerStatusPanel.updatePlayerStatusGUI();
+    }
+    
+    public void updateGameEndGUI(String inString) {
+        outerPanel.changeGameEndPanel(inString);
     }
 }

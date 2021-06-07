@@ -17,7 +17,6 @@ import java.util.ArrayList;
 public class Map {
     
     public String[][] dunMap = new String[40][25];
-    int x, y;
 
     public Map() {
         for (int y = 0; y < 25; y++) {
@@ -26,41 +25,20 @@ public class Map {
             }
         }
         
-        dunMap[x][y] = "P ";
+        dunMap[0][0] = "P ";
     }
     
     public void printMap()
     {
-        for (y = 0; y < 25; y++)
+        for (int y = 0; y < 25; y++)
         {
-            for (x = 0; x < 40; x++)
+            for (int x = 0; x < 40; x++)
             {
                 System.out.print(dunMap[x][y]);
             }
             System.out.println();
         }
         System.out.println();
-    }
-    
-    // Wrong added
-    public void addCharacters(PlayerCharacter p, ArrayList<MonsterCharacter> monsterCharacter)
-    {
-        dunMap[p.getX_position()][p.getY_position()] = "P ";
-        
-        for (MonsterCharacter m : monsterCharacter) {
-            if (m.getName().equalsIgnoreCase("Slime")) {
-                dunMap[m.getX_position()][m.getY_position()] = "S ";
-            } 
-            else if (m.getName().equalsIgnoreCase("Goblin")) {
-                dunMap[m.getX_position()][m.getY_position()] = "G ";
-            } 
-            else if (m.getName().equalsIgnoreCase("Skeleton Warrior")) {
-                dunMap[m.getX_position()][m.getY_position()] = "W ";
-            }
-            else if (m.getName().equalsIgnoreCase("Ancient Dragon")) {
-                dunMap[m.getX_position()][m.getY_position()] = "W ";
-            }
-        }
     }
     
     // New
@@ -76,32 +54,12 @@ public class Map {
                 dunMap[m.getX_position()][m.getY_position()] = "W ";
             }
             else if (m.getName().equalsIgnoreCase("Ancient Dragon")) {
-                dunMap[m.getX_position()][m.getY_position()] = "W ";
+                dunMap[m.getX_position()][m.getY_position()] = "D ";
             }
         }
     }
     
-    // Old one
-//    public void updateMap(PlayerCharacter p, char input)
-//    {
-//        switch (input) {
-//            case 'w':
-//                map[p.getX_position()][p.getY_position() + 1] = ' ';
-//                break;
-//            case 's':
-//                map[p.getX_position()][p.getY_position() - 1] = ' ';
-//                break;
-//            case 'd':
-//                map[p.getX_position() - 1][p.getY_position()] = ' ';
-//                break;
-//            case 'a':
-//                map[p.getX_position() + 1][p.getY_position()] = ' ';
-//                break;
-//        }
-//        map[p.getX_position()][p.getY_position()] = 'P';
-//    }
-    
-    // New one
+    // Update player current location in map, after (move)
     public void updateMap(PlayerCharacter player, char input)
     {
         dunMap[player.getX_position()][player.getY_position()] = "* ";

@@ -23,23 +23,33 @@ public class MonsterStatusPanel extends JPanel{
     
     private String[] monsterStatus;
 
-    public MonsterStatusPanel(MonsterCharacter character) {
+    public MonsterStatusPanel() {
         
         setBorder(BorderFactory.createTitledBorder("Monster Status:"));
         
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         
-        this.monster = character;
-        
         labels = new JLabel[6];
         
-        monsterStatus = monster.newedShowStatus();
-        
         for (int i = 0; i < 6; i++) {
-            labels[i] = new JLabel(monsterStatus[i]);
+            labels[i] = new JLabel();
             add(labels[i]);
         }
+        
+        setSize(230, 165);
     }
     
-    
+    // Update Monster's status GUI
+    public void updateMonsterStatusGUI(MonsterCharacter inMonster) {
+        
+        this.monster = inMonster;
+        
+        // Return Array String from monster's showStatus mehtod
+        monsterStatus = monster.showStatus();
+        
+        for (int i = 0; i < 6; i++) {
+            labels[i].setText(monsterStatus[i]);
+        }
+        
+    }
 }

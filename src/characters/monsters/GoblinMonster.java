@@ -29,7 +29,7 @@ public class GoblinMonster extends MonsterCharacter{
         super();
         this.name = "Goblin";
         this.x_position = rand.nextInt(35)+1;
-        this.y_position = rand.nextInt(10)+10;
+        this.y_position = rand.nextInt(10)+5;
         this.fullHp = 25;
         this.currentHp = fullHp;
         this.baseAtk = 8;
