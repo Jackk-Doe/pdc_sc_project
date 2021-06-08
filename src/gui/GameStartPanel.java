@@ -14,6 +14,12 @@ import javax.swing.JPanel;
 /**
  *
  * @author sengthavongphilavong
+ * 
+ * This Class shows first when game Starts
+ * 
+ * Logic Codes are hold in OuterPanel
+ * 
+ * This Class is located inside OuterPanel
  */
 public class GameStartPanel extends JPanel{
     

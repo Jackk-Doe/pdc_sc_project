@@ -5,22 +5,26 @@
  */
 package gui;
 
-import characters.monsters.Dragon;
-import characters.monsters.GoblinMonster;
 import characters.monsters.MonsterCharacter;
 import game.GameModel;
-import java.awt.Dimension;
 import java.awt.Font;
-import java.util.Scanner;
 import javax.swing.BorderFactory;
-import javax.swing.BoxLayout;
-import javax.swing.JFrame;
 import javax.swing.JList;
 import javax.swing.JPanel;
 
 /**
  *
  * @author sengthavongphilavong
+ * 
+ * This Class take care of Battle State Player's commands GUI
+ * 
+ * Also Show MonsterStatusGUI
+ * 
+ * Player will have to choose Available Action Command hold in Jlist
+ * 
+ * This Class is located inside Battle InnerPanel
+ * 
+ * This Class also carries MonsterStatusPanel
  */
 public class InnerMainPanelBattle extends JPanel{
     
@@ -62,7 +66,7 @@ public class InnerMainPanelBattle extends JPanel{
         setSize(420, 425);
     }
     
-    // Set Monster's Status GUI
+    // Set Monster's Status GUI When Player encountered with any Monster
     public void setMonsterStatusGUI() {
         
         this.monster = gameModel.currentMonster;
@@ -73,28 +77,6 @@ public class InnerMainPanelBattle extends JPanel{
         
         this.revalidate();
         this.repaint();
-    }
-    
-    public static void main(String[] args) {
-        JFrame frame = new JFrame("Test");
-//        InnerMainPanelBattle innerMainPanelBattle = new InnerMainPanelBattle();
-        frame.getContentPane().add(innerMainPanelBattle);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.pack();
-        frame.setVisible(true);
-        
-        Scanner scan = new Scanner(System.in);
-        System.out.print("> ");
-        String a = scan.nextLine();
-        
-//        innerMainPanelBattle.setMonsterStatusGUI(new Dragon());
-        
-        System.out.print("> ");
-        String a2 = scan.nextLine();
-        
-//        innerMainPanelBattle.setMonsterStatusGUI(new GoblinMonster());
-        frame.revalidate();
-        frame.repaint();
     }
     
 }

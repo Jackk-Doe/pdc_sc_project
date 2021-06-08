@@ -14,6 +14,10 @@ import javax.swing.JPanel;
 /**
  *
  * @author sengthavongphilavong
+ * 
+ * This class used to show Player's current fighting Monster's Status GUI
+ * 
+ * This Class is located inside InnerMainBattlePanel
  */
 public class MonsterStatusPanel extends JPanel{
     

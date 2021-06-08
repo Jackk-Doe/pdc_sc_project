@@ -1,0 +1,99 @@
+> Welcome to Dungeon AJAX
+> AJAX moved down
+> AJAX moved down
+> AJAX moved down
+> AJAX moved down
+> AJAX moved down
+> AJAX moved down
+> AJAX moved down
+> AJAX moved down
+> AJAX moved down
+> AJAX moved down
+> AJAX moved down
+> AJAX moved down
+> AJAX moved down
+> AJAX moved down
+> AJAX moved down
+> AJAX moved down
+> AJAX moved down
+> AJAX moved down
+> AJAX moved down
+> AJAX moved down
+> AJAX moved down
+> AJAX moved down
+> AJAX moved down
+> AJAX moved down
+> AJAX moved right
+> AJAX moved right
+> AJAX moved right
+> AJAX moved right
+> AJAX moved right
+> AJAX moved right
+> AJAX moved right
+> AJAX moved right
+> AJAX moved right
+> AJAX moved right
+> AJAX moved right
+> AJAX moved right
+> AJAX moved right
+> AJAX moved right
+> AJAX moved right
+> AJAX moved right
+> AJAX moved right
+> AJAX moved right
+> AJAX moved right
+> AJAX moved right
+> AJAX moved right
+> AJAX moved right
+> AJAX moved right
+> AJAX moved right
+> AJAX moved right
+> AJAX moved right
+> AJAX moved right
+> AJAX moved right
+> AJAX moved right
+> AJAX moved right
+> AJAX moved right
+> AJAX moved right
+> AJAX moved right
+> AJAX moved right
+> AJAX moved right
+> AJAX moved right
+> AJAX moved right
+> AJAX moved right
+> AJAX moved right
+> Encountered Monster!
+> Be focused!
+> AJAX is now facing the str..
+ongest monster in this Dunge..
+on!
+> The Ancient Dragon
+> AJAX attacked Ancient Drag..
+on
+> Ancient Dragon current HP ..
+: 195/199
+> Ancient Dragon's turn
+> Ancient Dragon attacked AJ..
+AX
+> AJAX current HP : 14/30
+> AJAX attacked Ancient Drag..
+on
+> Ancient Dragon protected i..
+tself with its metal-like wi..
+ngs
+> Ancient Dragon current HP ..
+: 195/199
+> Ancient Dragon's turn
+> Ancient Dragon created a m..
+assive tornado to defend its..
+elf from AJAX's next attack
+> AJAX attacked Ancient Drag..
+on
+> Ancient Dragon current HP ..
+: 194/199
+> Ancient Dragon's turn
+> Ancient Dragon attacked AJ..
+AX
+> AJAX current HP : 0/30
+> AJAX was burned to ashes b..
+y the Might Ancient Dragon

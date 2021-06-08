@@ -13,6 +13,12 @@ import javax.swing.JPanel;
 /**
  *
  * @author sengthavongphilavong
+ * 
+ * This Class used to store all Main Buttons in Game
+ * 
+ * All Action Codes are hold within GameControl
+ * 
+ * This Class is located inside GameView
  */
 public class ButtonPanel extends JPanel{
     
@@ -68,11 +74,4 @@ public class ButtonPanel extends JPanel{
         
     }
     
-    public static void main(String[] args) {
-        JFrame frame = new JFrame("Test");
-        frame.getContentPane().add(new ButtonPanel());
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.pack();
-        frame.setVisible(true);
-    }
 }

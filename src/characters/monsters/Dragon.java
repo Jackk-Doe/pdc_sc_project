@@ -10,6 +10,14 @@ import characters.player.PlayerCharacter;
 /**
  *
  * @author sengthavongphilavong
+ * 
+ * This Class represent Dragon
+ * 
+ * Eliminating Dragon is the objective of this game
+ * 
+ * Dragon is the Strongest monster in this Dungeon, with highest stats
+ * Dragon has both special attacks: Stunning and Poison Attack
+ * 
  */
 public class Dragon extends MonsterCharacter{
     public Dragon() {
@@ -17,7 +25,7 @@ public class Dragon extends MonsterCharacter{
         this.name = "Ancient Dragon";
         this.x_position = 39;
         this.y_position = 24;
-        this.fullHp = 99;
+        this.fullHp = 199;
         this.currentHp = fullHp;
         this.baseAtk = 16;
         this.armor = 7;
@@ -50,6 +58,7 @@ public class Dragon extends MonsterCharacter{
             }
         }
         
+        // Poison attack
         if (player.isPoisoned() == false) {
             int poisonChance = rand.nextInt(18)+1;
             if (poisonChance <= this.luck) {
@@ -62,6 +71,7 @@ public class Dragon extends MonsterCharacter{
             }
         }
         
+        // Stunning attack
         if (player.isStunned()== false) {
             int stunChance = rand.nextInt(18)+1;
             if (stunChance <= this.luck) {

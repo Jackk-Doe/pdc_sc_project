@@ -11,6 +11,13 @@ import items.HpPotion;
 /**
  *
  * @author sengthavongphilavong
+ * 
+ * Thief has high luck
+ * 
+ * Thus higher chance to block incoming attack, drop item, trigger special attack
+ * 
+ * At lvl 3 learn Double Strike 
+ * At lvl 5 learn Poison Knife
  */
 public class ThiefJob extends PlayerCharacter {
     
@@ -144,6 +151,7 @@ public class ThiefJob extends PlayerCharacter {
             monster.setCurrentHp(monster.getCurrentHp() + (monster.getArmor() - totalAtkDamage));
         }
         
+        // Double attack
         if (this.passiveSkill1) {
             int doubleAttackChance = rand.nextInt(22)+1;
             if (doubleAttackChance <= this.luck) {
@@ -152,6 +160,7 @@ public class ThiefJob extends PlayerCharacter {
             }
         }
         
+        // Poison Attack
         if (this.passiveSkill2 && (monster.isPoisoned() == false)) {
             int poisonChance = rand.nextInt(22)+1;
             if (poisonChance <= this.luck) {

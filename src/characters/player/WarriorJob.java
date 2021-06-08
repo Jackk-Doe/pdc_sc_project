@@ -11,6 +11,13 @@ import items.HpPotion;
 /**
  *
  * @author sengthavongphilavong
+ * 
+ * Warrior has high hp and atk
+ * 
+ * Stay longer in battle and dealt high damage on enemy
+ * 
+ * At lvl 3 learn Life Drain
+ * At lvl 5 learn Shield Smash
  */
 public class WarriorJob extends PlayerCharacter{
 
@@ -20,8 +27,7 @@ public class WarriorJob extends PlayerCharacter{
         this.job = "Warrior";
         this.fullHp = 30;
         this.currentHp = fullHp;
-//        this.baseAtk = 8;
-        this.baseAtk = 888;
+        this.baseAtk = 8;
         this.armor = 3;
         this.luck = 1;
         this.level = 1;
@@ -136,6 +142,7 @@ public class WarriorJob extends PlayerCharacter{
             monster.setCurrentHp(monster.getCurrentHp() + (monster.getArmor() - totalAtkDamage));
         }
         
+        // Life Drain
         if (this.passiveSkill1) {
             int lifeSteal = totalAtkDamage/3;
             this.currentHp += lifeSteal;
@@ -144,8 +151,10 @@ public class WarriorJob extends PlayerCharacter{
             if (this.currentHp >= this.fullHp) {
                 this.currentHp = this.fullHp;
             }
+            gameView.updatePlayerStatusGUI();
         }
         
+        // Shield Smash
         if (this.passiveSkill2 && (monster.isStunned() == false)) {
             int stunChance = rand.nextInt(18)+1;
             if (stunChance <= this.luck) {

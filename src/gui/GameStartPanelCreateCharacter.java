@@ -5,7 +5,6 @@
  */
 package gui;
 
-import characters.player.PlayerCharacter;
 import java.awt.Font;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -15,6 +14,14 @@ import javax.swing.JTextField;
 /**
  *
  * @author sengthavongphilavong
+ * 
+ * This Class used to show GUI of the Character Creation
+ * 
+ * Player will have to choose Name & Class for their character
+ * 
+ * Character Creation codes are hold in OuterPanel
+ * 
+ * This Class is located inside OuterPanel
  */
 public class GameStartPanelCreateCharacter extends JPanel {
     

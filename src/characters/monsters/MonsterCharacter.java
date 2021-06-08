@@ -13,6 +13,8 @@ import java.util.Random;
 /**
  *
  * @author sengthavongphilavong
+ * 
+ * This Class is abstract for all Monsters
  */
 public class MonsterCharacter extends Character{
     
@@ -25,6 +27,8 @@ public class MonsterCharacter extends Character{
         this.poisoned = false;
     }
     
+    // This method is called when monster attack player
+    // Note: each monster have their own special attack defined in thier own class
     public void attack(PlayerCharacter player) {
         int totalAtkDamage = rand.nextInt(4) + this.baseAtk;
         
@@ -53,9 +57,4 @@ public class MonsterCharacter extends Character{
         }
     }
     
-    public void setLocationXandY(int x, int y)
-    {
-        setX_position(x);
-        setY_position(y);
-    }
 }

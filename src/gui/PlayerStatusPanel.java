@@ -6,16 +6,20 @@
 package gui;
 
 import characters.player.PlayerCharacter;
-import characters.player.WarriorJob;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 /**
  *
  * @author sengthavongphilavong
+ * 
+ * This Class used to show Player current Status GUI
+ * 
+ * Update Every time when Player received damage, level-up, gained items, used potion
+ * 
+ * This Class is located inside InnerPanel
  */
 public class PlayerStatusPanel extends JPanel {
 
@@ -46,26 +50,15 @@ public class PlayerStatusPanel extends JPanel {
 //        setSize(230, 185);
     }
     
-    // Need Update mehtod? (YES)
+    // Update player current status
     public void updatePlayerStatusGUI() {
+        
         playerStatus = player.showStatus();
         
         for (int i = 0; i < 10; i++) {
             labels[i].setText(playerStatus[i]);
         }
         
-//        this.revalidate();
-//        this.repaint();
     }
 
-    public static void main(String[] args) {
-        PlayerCharacter player = new WarriorJob("Ajax", 300, 5);
-        PlayerStatusPanel panel = new PlayerStatusPanel(player);
-
-        JFrame frame = new JFrame("Test");
-        frame.getContentPane().add(panel);
-        frame.pack();
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setVisible(true);
-    }
 }

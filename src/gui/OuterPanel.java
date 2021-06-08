@@ -5,7 +5,6 @@
  */
 package gui;
 
-import characters.monsters.MonsterCharacter;
 import characters.player.ThiefJob;
 import characters.player.WarriorJob;
 import control.GameControl;
@@ -15,26 +14,44 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
+import java.sql.Statement;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import system.DBManager;
 
 /**
  *
  * @author sengthavongphilavong
+ * 
+ * This Class carries All Other GUI Classes, except ButtonPanel (just one below GameView)
+ * 
+ * All Carrying GUI Class's Button ActionEvents are defined within this Class
+ * (2nd-GameControler)
+ * 
+ * Help shorten GameView's within Method by defined most necessary inside this Class
+ * 
+ * Note: Change each GUI Class with remove(), add(), revalidate() & repaint() methods
+ * 
  */
 public class OuterPanel extends JPanel{
     
+    public static final String TABLENAME = "SAVEDCHARACTER";
+    
     private GameModel gameModel;
     
+    private DBManager dBManager;
+    
     private GameStartPanel gameStartPanel;
+    private GameStartLoadSavePanel gameStartLoadSavePanel;
     private GameStartPanelCreateCharacter gameStartPanelCreateCharacter;
     private GameStartInstructionPanel gameStartInstructionPanel;
     
     public InnerPanel innerPanel;
     
-    public GameEndPanel gameEndPanel;
+    private GameEndPanel gameEndPanel;
     
     
     public OuterPanel(GameModel model) {
@@ -45,14 +62,26 @@ public class OuterPanel extends JPanel{
         
         setBackground(Color.GRAY);
         
-//        innerPanel = new InnerPanel(gameModel);
         gameStartPanel = new GameStartPanel();
+        gameStartPanel.setLocation(25, 20);
+        
+        // add button listener
+        gameStartLoadSavePanel = new GameStartLoadSavePanel();
+        
         gameStartPanelCreateCharacter = new GameStartPanelCreateCharacter();
+        
         gameEndPanel = new GameEndPanel(null);
+        
         gameStartInstructionPanel = new GameStartInstructionPanel();
         
+        /**
+         * Adding Button Listener to each carrying GUI Class's Buttons
+         */
         gameStartPanel.getNewGameButton().addActionListener(new GameStartButtonListener());
         gameStartPanel.getLoadGameButton().addActionListener(new GameStartButtonListener());
+        
+        gameStartLoadSavePanel.getNewGameButton().addActionListener(new GameStartButtonListener());
+        gameStartLoadSavePanel.getLoadSaveButton().addActionListener(new GameStartButtonListener());
         
         gameStartInstructionPanel.getNextButton().addActionListener(new GameStartButtonListener());
         gameStartInstructionPanel.getStartButton().addActionListener(new GameStartButtonListener());
@@ -65,9 +94,7 @@ public class OuterPanel extends JPanel{
         
         gameStartPanelCreateCharacter.getTextField().getDocument().addDocumentListener(new TextFieldDocumentListener());
         
-//        gameStartPanel.setSize(680, 490);
-        gameStartPanel.setLocation(25, 20);
-//        
+        // Firstly just added GameStartPanel
         add(gameStartPanel);
         
         JLabel label = new JLabel("Nintendo GAME(OLD)BOY");
@@ -81,12 +108,14 @@ public class OuterPanel extends JPanel{
 //        setSize(730, 500);
     }
     
-    // Change from InnerPanel to GameOverPanel when player was defeated
+    // Change from InnerPanel to GameEndPanel when player was defeated
+    // Can be either GAME OVER or GAME CLEAR, based on string parameter
     public void changeGameEndPanel(String inString) {
         gameEndPanel = new GameEndPanel(inString);
         gameEndPanel.setLocation(25, 20);
         
         gameEndPanel.getEndButton().addActionListener(new GameStartButtonListener());
+        gameEndPanel.getSaveButton().addActionListener(new GameStartButtonListener());
         
         this.remove(innerPanel);
         this.add(gameEndPanel);
@@ -94,12 +123,34 @@ public class OuterPanel extends JPanel{
         this.revalidate();
         this.repaint();
         
+        // Print out all user's commands and game events
         innerPanel.actionListPanel.printEnd();
     }
     
+    // Load Saved Characters from DataBase Table from GameStartLoadSavePanel
+    // Remove GameStartPanel, then change to GameStartLoadSavePanel
+    private void changeToLoadSavePanel() {
+        this.remove(gameStartPanel);
+        gameStartLoadSavePanel.setLocation(25, 20);
+        this.add(gameStartLoadSavePanel);
+        this.revalidate();
+        this.repaint();
+    }
+    
+    // If player change thier mind not want to load save character
+    // Change to CreateCharacterPanel
+    private void changeFromLoadSavePanelToCreateNewCharacPanel() {
+        this.remove(gameStartLoadSavePanel);
+        this.add(gameStartPanelCreateCharacter);
+        gameStartPanelCreateCharacter.setLocation(25, 20);
+        this.revalidate();
+        this.repaint();
+    }
+    
     // Explain Game Mechanic through InstructionPanel
+    // Remove GameStartPanel to GameStartInstructionPanel
     // Then change to CreateNewCharacterPanel
-    private void changeToInstructionPanel() {
+    private void changeFromGameStartPanelToInstructionPanel() {
         this.remove(gameStartPanel);
         this.add(gameStartInstructionPanel);
         gameStartInstructionPanel.setLocation(25, 20);
@@ -116,8 +167,51 @@ public class OuterPanel extends JPanel{
         this.repaint();
     }
     
+    // Get loading character information from LoadSavePanel's method
+    // and Create a new character base on the collect info
+    // Then Change to inner panel
+    private void createCharacterFromSaveTable() {
+        
+        String[] characterInfo = gameStartLoadSavePanel.loadCharacterFromTable();
+        
+        String name = characterInfo[0];
+        int exp = Integer.parseInt(characterInfo[1]);
+        int potion = Integer.parseInt(characterInfo[2]);
+        String job = characterInfo[3];
+        
+        if (job.equalsIgnoreCase("warrior")) {
+            this.gameModel.setPlayer(new WarriorJob(name, exp, potion));
+        }
+        if (job.equalsIgnoreCase("thief")) {
+            this.gameModel.setPlayer(new ThiefJob(name, exp, potion));
+        }
+        
+        this.remove(gameStartLoadSavePanel);
+        
+        // Define innerPanel AFTER CREATED Character,
+        // Result: Prevent NullPointer from Player Character
+        innerPanel = new InnerPanel(gameModel);
+        this.add(innerPanel);
+        innerPanel.setLocation(25, 20);
+        
+        // Set MAPTRAVELINGSTATE to true after AFTER CREATED and map
+        // To enable Buttons in GameView
+        GameControl.MAPTRAVELINGSTATE = true;
+        
+        // Add text to ActionListPanel
+        innerPanel.actionListPanel.addTextToList("Welcome Back to Dungeon "+name);
+        
+        // Update Map
+        // After Player created character
+        innerPanel.innerPanelMap.updateMap();
+        
+        this.revalidate();
+        this.repaint();
+    }
+    
     // Create a new Character through the GameStartPanelCreateCharacter Panel
-    // Then Change to InstructionPanel
+    // Then Set created character to GameMode.player
+    // And Change to InnerPanel
     private void createPlayerCharacThenChangeToInstructionPanel(String classInput, String name) {
         
         String pickedName = name;
@@ -139,12 +233,13 @@ public class OuterPanel extends JPanel{
         this.remove(gameStartPanelCreateCharacter);
         
         // Define innerPanel AFTER CREATED Character,
-        // Result: Prevent NullPointer
+        // Result: Prevent NullPointer from Player Character
         innerPanel = new InnerPanel(gameModel);
         this.add(innerPanel);
         innerPanel.setLocation(25, 20);
         
         // Set MAPTRAVELINGSTATE to true after AFTER CREATED and map
+        // To enable Buttons in GameView
         GameControl.MAPTRAVELINGSTATE = true;
         
         // Add text to ActionListPanel
@@ -158,8 +253,59 @@ public class OuterPanel extends JPanel{
         this.repaint();
     }
     
+    // Create Database Table to store player's character
+    private void createTable() {
+        try {
+            dBManager = new DBManager();
+            
+            Statement statement = dBManager.getConnection().createStatement();
+            
+            String sqlCreate = "CREATE TABLE "+TABLENAME+" ( NAME VARCHAR(20) "
+                    + "NOT NULL, EXP INT, POTION INT, CLASS VARCHAR(10))";
+            
+            statement.executeUpdate(sqlCreate);
+            
+            String printOutString = "Created Table";
+            innerPanel.actionListPanel.addTextToList(printOutString);
+            System.out.println(printOutString);
+            
+            dBManager.closeConnections();
+        }
+        catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+    }
+    
+    // Save player current character to Database Table
+    private void saveCharacter() {
+        try {
+            dBManager = new DBManager();
+            
+            Statement statement = dBManager.getConnection().createStatement();
+            
+            String name = gameModel.getPlayer().getName();
+            int exp = gameModel.getPlayer().getExp();
+            int potions = gameModel.getPlayer().getCarryingItems().size();
+            String job = gameModel.getPlayer().getJob();
+            
+            String sqlInsert = "INSERT INTO "+TABLENAME+" VALUES('"+name+"', "
+                    + ""+exp+", "+potions+", '"+job+"')";
+            
+            statement.executeUpdate(sqlInsert);
+            
+            String printOutString2 = "Saved Player's Character";
+            innerPanel.actionListPanel.addTextToList(printOutString2);
+            System.out.println(printOutString2);
+            
+            dBManager.closeConnections();
+        }
+        catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+    }
+    
     // Check if JTextField is empty 
-    // If empty, disable buttons
+    // If empty, disable Class Picking (Warrior, Thief) Buttons
     private void checkCreateCharacPanelTextField() {
         if (gameStartPanelCreateCharacter.getTextField().getText().equals("")) {
             gameStartPanelCreateCharacter.getPickWarriorButton().setEnabled(false);
@@ -196,7 +342,19 @@ public class OuterPanel extends JPanel{
         public void actionPerformed(ActionEvent event) {
             
             if (event.getSource() == gameStartPanel.getNewGameButton()) {
-                changeToInstructionPanel();
+                changeFromGameStartPanelToInstructionPanel();
+            }
+            
+            if (event.getSource() == gameStartPanel.getLoadGameButton()) {
+                changeToLoadSavePanel();
+            }
+            
+            if (event.getSource() == gameStartLoadSavePanel.getNewGameButton()) {
+                changeFromLoadSavePanelToCreateNewCharacPanel();
+            }
+            
+            if (event.getSource() == gameStartLoadSavePanel.getLoadSaveButton()) {
+                createCharacterFromSaveTable();
             }
             
             if (event.getSource() == gameStartInstructionPanel.getNextButton()) {
@@ -216,6 +374,13 @@ public class OuterPanel extends JPanel{
             if (event.getSource() == gameStartPanelCreateCharacter.getPickThiefButton()) {
                 String name = gameStartPanelCreateCharacter.getTextField().getText().trim();
                 createPlayerCharacThenChangeToInstructionPanel("T", name);
+            }
+            
+            if (event.getSource() == gameEndPanel.getSaveButton()) {
+                createTable();
+                saveCharacter();
+                gameEndPanel.getSaveButton().setText("SAVED!");
+                gameEndPanel.getSaveButton().setEnabled(false);
             }
             
             if (event.getSource() == gameEndPanel.getEndButton()) {

@@ -9,6 +9,9 @@ import java.awt.Adjustable;
 import java.awt.Dimension;
 import java.awt.event.AdjustmentEvent;
 import java.awt.event.AdjustmentListener;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Scanner;
 import javax.swing.BorderFactory;
@@ -21,6 +24,10 @@ import javax.swing.ScrollPaneConstants;
 /**
  *
  * @author sengthavongphilavong
+ * 
+ * This Class GUI used to print out and update events(String) happening in Game
+ * 
+ * This Class is located as part of InnerPanel
  */
 public class ActionListPanel extends JPanel{
     
@@ -40,6 +47,7 @@ public class ActionListPanel extends JPanel{
                 ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         scrollPane.setPreferredSize(new Dimension(210, 200));
         
+        // Case Study:
         // This AdjustmentListener 
         // Automaticly move the scrollPane down every time when new item is added
         // Problem : Can't scroll UP (Fixed)
@@ -64,7 +72,7 @@ public class ActionListPanel extends JPanel{
         
         /*
         If the income string is too long (does not fit panel),
-        cut string with private method
+        cut string with the below private method
         */
         if (newString.length() > 28) {
             splitString(newString);
@@ -83,6 +91,29 @@ public class ActionListPanel extends JPanel{
         
         // Fixed scrollPane problems
         actionList.ensureIndexIsVisible(newList.length - 1);
+    }
+    
+    // Print all Player's commands and Game Events to file
+    // and console after Game end
+    public void printEnd() {
+        
+        PrintWriter pw = null;
+        
+        try {
+            pw = new PrintWriter(new FileOutputStream("./IOresources/gameevents.txt"));
+            
+            for (String string : arrayList) {
+                
+                pw.println(string);
+                
+                System.out.println(string);
+            }
+            
+            pw.close();
+        }
+        catch (FileNotFoundException e) {
+            System.out.println(e.getMessage());
+        }
     }
     
     // Split and cut the incoming String
@@ -108,25 +139,4 @@ public class ActionListPanel extends JPanel{
         } while (endSplit < inString.length());
     }
     
-    public void printEnd() {
-        for (String string : arrayList) {
-            System.out.println(string);
-        }
-    }
-    
-    public static void main(String[] args) {
-        JFrame frame = new JFrame("Test");
-        ActionListPanel actionListPanel = new ActionListPanel();
-        frame.add(actionListPanel);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.pack();
-        frame.setVisible(true);
-        
-        while (true) {
-            System.out.print("> ");
-            Scanner scan = new Scanner(System.in);
-            String text = scan.nextLine();
-            actionListPanel.addTextToList(text);
-        }
-    }
 }

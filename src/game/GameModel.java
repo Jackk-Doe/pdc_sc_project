@@ -16,7 +16,6 @@ import gui.GameView;
 import java.util.ArrayList;
 import java.util.Random;
 import map.Map;
-import system.Battle;
 
 /**
  *
@@ -27,14 +26,11 @@ public class GameModel {
     public GameView gameView;
 
     public PlayerCharacter player;
-//    public PlayerCharacter player = new ThiefJob("Kyle");
     public ArrayList<MonsterCharacter> monsters;
 
     public MonsterCharacter currentMonster;
 
     public Map map;
-
-    public Battle battleSystem;
 
     private int poisonedPlayerCount = 3;
     private int poisonedMonsterCount = 3;
@@ -67,10 +63,9 @@ public class GameModel {
 
         map = new Map();
 
+        // Add Monster to map
         map.addMonster(monsters);
 
-        battleSystem = new Battle();
-//        gameView.outerPanel.innerPanel.innerPanelMap.updateMap();
     }
 
     public PlayerCharacter getPlayer() {
@@ -93,9 +88,7 @@ public class GameModel {
     // Set GameView for GameModel & all monsters
     public void setGameView(GameView gameView) {
         this.gameView = gameView;
-        // Need?
-        this.battleSystem.setGameView(gameView);
-
+        
         for (MonsterCharacter monster : monsters) {
             monster.setGameView(gameView);
         }
@@ -170,23 +163,12 @@ public class GameModel {
                 gameView.outerPanel.innerPanel.changeMapToBattleGUI();
                 gameView.outerPanel.innerPanel.innerPanelBattle.setMonsterStatusGUI();
 
-                // Start battles!
-                battleSystem.enterBattle(player, monster);
-
-                // Battle ended!
-                // Set MAPTRAVELINGSTATE & INBATTLESTATE back
-//                GameControl.MAPTRAVELINGSTATE = true;
-//                GameControl.INBATTLESTATE = false;
-//                
-//                // Update GUI
-//                gameView.updateActionListGUI("Battle ended!");
-//                gameView.updateActionListGUI("Back to Map");
-//                gameView.updateBattleToMapGUI();
             }
 
         }
     }
 
+    // Read player command from GameControl
     public void readPlayerBattleCommand(int listIndex) {
 
         boolean blockIncomingAttack = false;
@@ -209,6 +191,7 @@ public class GameModel {
                 player.setPoisoned(false);
                 poisonedPlayerCount = 3;
             }
+            gameView.updatePlayerStatusGUI();
         }
 
         switch (listIndex) {
@@ -235,7 +218,7 @@ public class GameModel {
                     }
 
                     player.attack(currentMonster);
-                    // Update Player's GUI status
+                    // Update Monster's GUI status
                     gameView.updateMonsterStatusGUI(currentMonster);
                 }
 
@@ -275,6 +258,7 @@ public class GameModel {
                     gameView.updateActionListGUI("No potion carrying");
                     gameView.updateActionListGUI("Turn skip");
                 }
+                gameView.updatePlayerStatusGUI();
                 break;
         }
 
@@ -297,6 +281,8 @@ public class GameModel {
                 currentMonster.setPoisoned(false);
                 poisonedMonsterCount = 3;
             }
+            
+            gameView.updateMonsterStatusGUI(currentMonster);
         }
 
         // If Player's & Monster's current hp still more than 0

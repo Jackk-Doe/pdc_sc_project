@@ -8,6 +8,11 @@ package characters.monsters;
 /**
  *
  * @author sengthavongphilavong
+ * 
+ * This Class represent Goblin Monster
+ * 
+ * Goblin has the highest luck stat among other monsters
+ * Goblin is the only monster that does not have any special attack
  */
 public class GoblinMonster extends MonsterCharacter{
     

@@ -5,8 +5,10 @@
  */
 package gui;
 
+import characters.player.PlayerCharacter;
 import java.awt.Color;
 import java.awt.Font;
+import java.sql.Statement;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -15,6 +17,12 @@ import javax.swing.JPanel;
 /**
  *
  * @author sengthavongphilavong
+ * 
+ * This Class used for  both GAME OVER & GAME CLEAR GUI, based on income parameter
+ * 
+ * The Buttons Logic Codes are hold with OuterPanel
+ * 
+ * This Class is located in OuterPanel
  */
 public class GameEndPanel extends JPanel{
     
@@ -55,12 +63,4 @@ public class GameEndPanel extends JPanel{
         return endButton;
     }
     
-    public static void main(String[] args) {
-        GameEndPanel gameOverPanel = new GameEndPanel("GAME OVER");
-        JFrame frame = new JFrame("Testing");
-        frame.getContentPane().add(gameOverPanel);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(680, 490);
-        frame.setVisible(true);
-    }
 }

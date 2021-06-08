@@ -10,6 +10,13 @@ import characters.player.PlayerCharacter;
 /**
  *
  * @author sengthavongphilavong
+ * 
+ * This Class represent Skeleton Warrior Monster
+ * 
+ * Skeleton Warrior is the most balance monster in game
+ * Skeleton Warrior special attack is stunning attack
+ * 
+ * Stunning attack : put enemy to sleep for 1 turn
  */
 public class SkeletonWarriorMonster extends MonsterCharacter{
     public SkeletonWarriorMonster(int x, int y) {
@@ -64,6 +71,7 @@ public class SkeletonWarriorMonster extends MonsterCharacter{
             }
         }
         
+        // Stunning attack
         if (player.isStunned()== false) {
             int stunChance = rand.nextInt(18)+1;
             if (stunChance <= this.luck) {

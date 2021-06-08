@@ -118,7 +118,6 @@ public class GameControl extends JFrame{
 //                System.out.println(gameView.outerPanel.innerPanel.innerPanelBattle.commandList.getSelectedIndex());
             }
             
-            // Add game clear here
         }
         
     }

@@ -10,6 +10,13 @@ import characters.player.PlayerCharacter;
 /**
  *
  * @author sengthavongphilavong
+ * 
+ * This Class represent Slime Monster
+ * 
+ * Slime is the weakest monster
+ * Slime special attack is Poison attack
+ * 
+ * Poison Attack : Put enemy to poison status (recieve 5 damage) for 3 turns
  */
 public class SlimeMonster extends MonsterCharacter{
 
@@ -65,6 +72,7 @@ public class SlimeMonster extends MonsterCharacter{
             }
         }
         
+        // Poison Attack
         if (player.isPoisoned() == false) {
             int poisonChance = rand.nextInt(10)+1;
             if (poisonChance <= this.luck) {

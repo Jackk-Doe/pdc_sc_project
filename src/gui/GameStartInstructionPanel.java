@@ -11,7 +11,6 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
@@ -21,6 +20,13 @@ import javax.swing.ScrollPaneConstants;
 /**
  *
  * @author sengthavongphilavong
+ * 
+ * This Class Show Game Instruction and GameMechanic GUI 
+ * when Player first start game
+ * 
+ * All Buttons Logic Code are hold inside OuterPanel
+ * 
+ * This Class is located inside OuterPanel
  */
 public class GameStartInstructionPanel extends JPanel{
     
@@ -46,6 +52,7 @@ public class GameStartInstructionPanel extends JPanel{
         
         texts = new String[10];
         
+        // Read Game Instruction from file
         try {
             br = new BufferedReader(new FileReader("./IOresources/instruction.txt"));
             String line = null;
@@ -84,6 +91,7 @@ public class GameStartInstructionPanel extends JPanel{
         
     }
     
+    // Read second file (Game Play Mechanic)
     public void readSecondText() {
         
         texts = new String[33];
@@ -115,11 +123,4 @@ public class GameStartInstructionPanel extends JPanel{
         return startButton;
     }
     
-    public static void main(String[] args) {
-        JFrame frame = new JFrame("Testing");
-        frame.getContentPane().add(new GameStartInstructionPanel());
-        frame.setSize(680, 490);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setVisible(true);
-    }
 }

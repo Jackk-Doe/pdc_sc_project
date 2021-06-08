@@ -15,6 +15,8 @@ import java.util.Random;
 /**
  *
  * @author sengthavongphilavong
+ * 
+ * This Class is Abstract for all Player avialable character
  */
 public abstract class PlayerCharacter extends Character{
     
@@ -96,6 +98,8 @@ public abstract class PlayerCharacter extends Character{
         return status;
     }
     
+    // Check if there's any item drop after battle
+    // Drop rate depends on player's luck
     public boolean checkItemDrop()
     {
         boolean droppedItem = false;
@@ -108,6 +112,8 @@ public abstract class PlayerCharacter extends Character{
         return droppedItem;
     }
 
+    // Update player's status after each battle
+    // At lvl 3 and lvl 5 player will learn new passive skill
     public void afterBattleStatusUpdate(int exp) {
         
         boolean lvlUpCheck = gainExp(exp);

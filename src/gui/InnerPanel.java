@@ -5,23 +5,25 @@
  */
 package gui;
 
-import characters.monsters.MonsterCharacter;
 import characters.player.PlayerCharacter;
 import game.GameModel;
 import java.awt.Color;
-import java.util.Scanner;
-import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 /**
  *
  * @author sengthavongphilavong
+ * 
+ * This Class used to carry and draw other GUI class: ActionListPanel,
+ *   PlayerStatusPanel, InnerMainMap & InnerMainBattle.
+ * 
+ * Frequently changing between InnerMainMap & InnerMainBattle GUI
+ * 
+ * This Class is located inside OuterPanel
  */
 public class InnerPanel extends JPanel{
     
     private GameModel gameModel;
-    
-//    public JPanel innerMainPanel;
     
     public InnerMainPanelMap innerPanelMap;
     public InnerMainPanelBattle innerPanelBattle;
@@ -31,6 +33,7 @@ public class InnerPanel extends JPanel{
     
     public PlayerCharacter player;
     
+    // Passing GameModel to other GUI Class
     public InnerPanel(GameModel model) {
         
         this.gameModel = model;
@@ -43,12 +46,7 @@ public class InnerPanel extends JPanel{
         
         // Add Monster to Battle
         innerPanelBattle = new InnerMainPanelBattle(gameModel);
-//        innerPanelBattle.setSize(420, 425);
-        
-//        innerMainPanel = new InnerMainPanelMap();
-//        innerMainPanel.setSize(420, 425);
-//        innerMainPanel.setLocation(10, 20);
-//        innerMainPanel.setBackground(Color.red);
+        innerPanelBattle.setSize(420, 425);
         
         actionListPanel = new ActionListPanel();
         actionListPanel.setSize(230, 235);
@@ -67,27 +65,12 @@ public class InnerPanel extends JPanel{
         setSize(680, 490);
     }
     
-    // New One
-    // V1
-//    public void changeMapToBattleGUI(MonsterCharacter inMonster) {
-//        
-////        innerPanelBattle = new InnerMainPanelBattle(gameModel);
-//        innerPanelBattle.setMonsterStatusGUI();
-//        innerPanelBattle.setLocation(10, 20);
-//        
-//        this.remove(innerPanelMap);
-//        this.add(innerPanelBattle);
-//        
-//        this.revalidate();
-//        this.repaint();
-//    }
-    
-    // V2
+    // Change Map GUI to Battle GUI
+    // Ant set monster for MonsterStatusGUI 
+    // Get Monster from GameModel' attribute: currentMonster
     public void changeMapToBattleGUI() {
         
-//        innerPanelBattle = new InnerMainPanelBattle(gameModel);
         innerPanelBattle.setMonsterStatusGUI();
-        innerPanelBattle.setSize(420, 425);
         innerPanelBattle.setLocation(10, 20);
         
         this.remove(innerPanelMap);
@@ -97,55 +80,14 @@ public class InnerPanel extends JPanel{
         this.repaint();
     }
     
-    public void changeBattleBackToMapGUI() {
+    // Change Battle GUI to Map GUI
+    public void changeFromBattleBackToMapGUI() {
         
         this.remove(innerPanelBattle);
         this.add(innerPanelMap);
-        
-//        innerPanelBattle = null;
         
         this.revalidate();
         this.repaint();
     }
     
-    // Old one
-    public void changeState(int inputed) {
-        // Change to Battle 
-        if (inputed == 1) {
-            this.remove(innerPanelMap);
-            this.add(innerPanelBattle);
-            innerPanelBattle.setLocation(10, 20);
-            this.revalidate();
-            this.repaint();
-        }
-        // Change to Map
-        else {
-            this.remove(innerPanelBattle);
-            this.add(innerPanelMap);
-            innerPanelMap.setLocation(10, 20);
-            this.revalidate();
-            this.repaint();
-        }
-    }
-    
-    public static void main(String[] args) {
-        JFrame frame = new JFrame("Test");
-        InnerPanel innerPanel = new InnerPanel();
-        frame.getContentPane().add(innerPanel);
-//        frame.pack();
-        frame.setSize(660, 480);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setVisible(true);
-        
-        while (true) {
-            System.out.print("> ");
-            Scanner scan = new Scanner(System.in);
-            int inputting = scan.nextInt();
-            innerPanel.changeState(inputting);
-//            // frame.revalidate = ask JFrame to recalculate it's components
-//            frame.revalidate();
-//            // frame.repaint = ask JFrame to repaint it's components
-//            frame.repaint();
-        }
-    }
 }

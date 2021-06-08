@@ -11,6 +11,8 @@ import java.util.Random;
 /**
  *
  * @author sengthavongphilavong
+ * 
+ * This Class is the highest abstract class for all characters
  */
 public abstract class Character {
     
@@ -116,15 +118,11 @@ public abstract class Character {
         this.poisoned = poisoned;
     }
     
-    public void setBothXandY(int x, int y) {
-        setX_position(x);
-        setY_position(y);
-    }
-
     public void setGameView(GameView gameView) {
         this.gameView = gameView;
     }
     
+    // Return character's current status
     public String[] showStatus() {
         
         String[] status = new String[6];
@@ -139,6 +137,8 @@ public abstract class Character {
         return status;
     }
     
+    // For each incoming attack
+    // All Character have chance to block attack
     public boolean blockAttacking()
     {
         Random ran = new Random();
